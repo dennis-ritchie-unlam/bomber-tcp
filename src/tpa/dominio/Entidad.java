@@ -3,7 +3,7 @@ package tpa.dominio;
 public abstract class Entidad {
 	private double posicionX;
 	private double posicionY;
-	
+
 	public Entidad(double posX, double posY) {
 		this.posicionX = posX;
 		this.posicionY = posY;
@@ -24,5 +24,5 @@ public abstract class Entidad {
 	public void setPosicionY(double posicionY) {
 		this.posicionY = posicionY;
 	}
-	
+
 }

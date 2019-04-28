@@ -1,21 +1,21 @@
 package tpa.dominio;
 
-public class Bomba extends Entidad{
+public class Bomba extends Entidad {
 	private int tiempoExplosion;
 	private int duracionExplosion;
 	private int rango;
 	private boolean exploto;
-	
+
 	public Bomba(double posX, double posY) {
 		super(posX, posY);
 		this.tiempoExplosion = 2;
 		this.duracionExplosion = 1;
 		this.rango = 1;
-		this.exploto = false;
+		this.setExploto(false);
 	}
-	
+
 	public void explotar() {
-		this.exploto = true;
+		this.setExploto(true);
 	}
 
 	public int getTiempoExplosion() {
@@ -37,5 +37,13 @@ public class Bomba extends Entidad{
 	public int getRango() {
 		return rango;
 	}
-		
+
+	public boolean isExploto() {
+		return exploto;
+	}
+
+	public void setExploto(boolean exploto) {
+		this.exploto = exploto;
+	}
+
 }
