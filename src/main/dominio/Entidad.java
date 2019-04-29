@@ -1,4 +1,4 @@
-package tpa.dominio;
+package main.dominio;
 
 public abstract class Entidad {
 	private double posicionX;

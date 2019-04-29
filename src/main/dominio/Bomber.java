@@ -1,4 +1,4 @@
-package tpa.dominio;
+package main.dominio;
 
 public class Bomber extends Entidad {
 	private boolean estaVivo;

@@ -1,4 +1,4 @@
-package tpa.dominio;
+package main.dominio;
 
 public class Bomba extends Entidad {
 	private int tiempoExplosion;

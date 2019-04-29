@@ -1,4 +1,4 @@
-package tpa.dominio;
+package main.dominio;
 
 public class Obstaculo extends Entidad {
 	private boolean destructible;
