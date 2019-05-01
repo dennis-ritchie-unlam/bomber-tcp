@@ -1,14 +1,21 @@
 # Compiled class file
 **/*.class
 
-# Log file
-*.log
+### Eclipse ###
+bin/
+/bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
 
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# Locally stored "Eclipse launch configurations"
+*.launch
 
 # Package Files #
 *.jar
@@ -26,4 +33,3 @@
 .project
 **/.settings
 RemoteSystemsTempFiles
-/bin/
