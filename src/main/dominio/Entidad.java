@@ -1,27 +1,27 @@
 package main.dominio;
 
 public abstract class Entidad {
-	private double posicionX;
-	private double posicionY;
+	private int posicionX;
+	private int posicionY;
 
-	public Entidad(double posX, double posY) {
+	public Entidad(int posX, int posY) {
 		this.posicionX = posX;
 		this.posicionY = posY;
 	}
 
-	public double getPosicionX() {
+	public int getPosicionX() {
 		return posicionX;
 	}
 
-	public void setPosicionX(double posicionX) {
+	public void setPosicionX(int posicionX) {
 		this.posicionX = posicionX;
 	}
 
-	public double getPosicionY() {
+	public int getPosicionY() {
 		return posicionY;
 	}
 
-	public void setPosicionY(double posicionY) {
+	public void setPosicionY(int posicionY) {
 		this.posicionY = posicionY;
 	}
 

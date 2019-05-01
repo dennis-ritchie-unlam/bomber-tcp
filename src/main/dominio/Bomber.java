@@ -1,11 +1,14 @@
 package main.dominio;
 
-public class Bomber extends Entidad {
+public class Bomber {
 	private boolean estaVivo;
 	private int bombasDisponibles;
+	private double posicionX;
+	private double posicionY;
 
 	public Bomber(double posX, double posY) {
-		super(posX, posY);
+		this.posicionX = posX;
+		this.posicionY = posY;
 		this.estaVivo = true;
 		this.bombasDisponibles = 1;
 	}
@@ -34,4 +37,19 @@ public class Bomber extends Entidad {
 		this.bombasDisponibles = bombasDisponibles;
 	}
 
+	public double getPosicionX() {
+		return posicionX;
+	}
+
+	public void setPosicionX(double posicionX) {
+		this.posicionX = posicionX;
+	}
+
+	public double getPosicionY() {
+		return posicionY;
+	}
+
+	public void setPosicionY(double posicionY) {
+		this.posicionY = posicionY;
+	}
 }

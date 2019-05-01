@@ -1,12 +1,16 @@
 package main.dominio;
 
+import java.util.ArrayList;
+
 public class Mapa {
 	private Entidad[][] entidades;
+	private ArrayList<Bomber> bombers;
 	static final int ALTO = 13;
 	static final int ANCHO = 15;
 
 	public Mapa() {
 		entidades = new Entidad[ALTO][ANCHO];
+		bombers = new ArrayList<Bomber>();
 		generarObstaculosIndestructibles();
 		generarObstaculosDestructibles();
 	}
@@ -35,7 +39,7 @@ public class Mapa {
 	}
 
 	public void añadirBomba(Bomba bombita) {
-		entidades[(int) bombita.getPosicionX()][(int) bombita.getPosicionY()] = bombita;
+		entidades[bombita.getPosicionX()][bombita.getPosicionY()] = bombita;
 	}
 
 	public void eliminarBomba(int x, int y) {
@@ -44,6 +48,20 @@ public class Mapa {
 	}
 
 	public void añadirBomber(Bomber personaje) {
+		bombers.add(personaje);
+	}
+	
+	public void moverBomber(Bomber personaje, double despX, double despY) {
+		double personajeX = personaje.getPosicionX();
+		double personajeY = personaje.getPosicionY();
+		
+		if( entidades[(int)(personajeX + despX)][(int)(personajeY + despY)] == null )
+		
+		entidades[personajeX][personajeY] = null;
+		
+		personaje.setPosicionX(personajeX + despX);
+		personaje.setPosicionY(personajeY + despY);
+		
 		entidades[(int) personaje.getPosicionX()][(int) personaje.getPosicionY()] = personaje;
 	}
 }
