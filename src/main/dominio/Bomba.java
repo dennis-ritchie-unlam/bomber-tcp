@@ -6,7 +6,7 @@ public class Bomba extends Entidad {
 	private int rango;
 	private boolean exploto;
 
-	public Bomba(double posX, double posY) {
+	public Bomba(int posX, int posY) {
 		super(posX, posY);
 		this.tiempoExplosion = 2;
 		this.duracionExplosion = 1;

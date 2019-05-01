@@ -23,10 +23,15 @@ public class Mapa {
 	}
 
 	private void generarObstaculosDestructibles() {
-		for (int i = 1; i < (ANCHO - 1); i++)
-			entidades[i][4] = new Obstaculo(i, 4, true);
-		for (int i = 1; i < (ANCHO - 1); i++)
-			entidades[i][10] = new Obstaculo(i, 10, true);
+		for (int i = 1; i < (ALTO - 1); i++) {
+			entidades[i][5] = new Obstaculo(i, 5, true);
+			entidades[i][9] = new Obstaculo(i, 9, true);
+		}
+		
+	}
+
+	public ArrayList<Bomber> getBombers() {
+		return bombers;
 	}
 
 	public void eliminarObstaculo(int x, int y) {
@@ -55,13 +60,10 @@ public class Mapa {
 		double personajeX = personaje.getPosicionX();
 		double personajeY = personaje.getPosicionY();
 		
-		if( entidades[(int)(personajeX + despX)][(int)(personajeY + despY)] == null )
-		
-		entidades[personajeX][personajeY] = null;
-		
-		personaje.setPosicionX(personajeX + despX);
-		personaje.setPosicionY(personajeY + despY);
-		
-		entidades[(int) personaje.getPosicionX()][(int) personaje.getPosicionY()] = personaje;
+		if( entidades[(int)(personajeX + despX)][(int)(personajeY + despY)] == null ) {
+			personaje.setPosicionX(personajeX+despX);
+			personaje.setPosicionY(personajeY+despY);
+		}
+
 	}
 }

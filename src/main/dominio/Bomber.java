@@ -1,6 +1,6 @@
 package main.dominio;
 
-public class Bomber {
+public class Bomber {	
 	private boolean estaVivo;
 	private int bombasDisponibles;
 	private double posicionX;
@@ -14,7 +14,7 @@ public class Bomber {
 	}
 
 	public Bomba ponerBomba() {
-		return new Bomba((double) Math.round(this.getPosicionX()), (double) Math.round(this.getPosicionY()));
+		return new Bomba((int) Math.round(this.getPosicionX()),(int) Math.round(this.getPosicionY()));
 	}
 
 	public void morir() {
