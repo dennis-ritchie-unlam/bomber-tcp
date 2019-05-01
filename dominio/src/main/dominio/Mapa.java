@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Mapa {
 	private Entidad[][] entidades;
 	private ArrayList<Bomber> bombers;
-	static final int ALTO = 13;
-	static final int ANCHO = 15;
+	private static final int ALTO = 13;
+	private static final int ANCHO = 15;
 
 	public Mapa() {
 		entidades = new Entidad[ALTO][ANCHO];

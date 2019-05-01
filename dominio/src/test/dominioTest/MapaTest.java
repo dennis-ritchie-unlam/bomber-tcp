@@ -23,11 +23,9 @@ public class MapaTest {
 		Entidad[][] entidades = mapita.getEntidades();
 		Assert.assertTrue(entidades[2][2] instanceof Obstaculo);
 		Obstaculo obstaculito = (Obstaculo) entidades[2][2];
-		Assert.assertEquals(false,obstaculito.isDestructible());
-		
-
-		
+		Assert.assertEquals(false,obstaculito.isDestructible());	
 	}
+	
 	@Test
 	public void generaObstaculosIndestructiblesEnElBorde() {
 		Entidad[][] entidades = mapita.getEntidades();
@@ -36,15 +34,12 @@ public class MapaTest {
 		Assert.assertEquals(false,obstaculito.isDestructible());
 	}
 	
-
-	
 	@Test
 	public void generaObstaculosDestructibles() {
 		Entidad[][] entidades = mapita.getEntidades();
 		Assert.assertTrue(entidades[4][5] instanceof Obstaculo);
 		Obstaculo obstaculito = (Obstaculo) entidades[4][5];
 		Assert.assertEquals(true,obstaculito.isDestructible());
-		
 	}
 	
 	@Test
@@ -78,5 +73,52 @@ public class MapaTest {
 		Assert.assertEquals(bombers.get(0).getPosicionX(), 1, 0.000001);
 	}
 	
-
+	@Test
+	public void bomberEstaEnUnaEsquina() {
+		mapita.añadirBomber(new Bomber(1, 1));
+		ArrayList<Bomber> bombers;
+		bombers = mapita.getBombers();
+		Assert.assertEquals(1, bombers.size());
+		Assert.assertEquals(bombers.get(0).getPosicionX(), 1, 0.000001);
+		mapita.moverBomber(bombers.get(0), -1,0);
+		Assert.assertEquals(bombers.get(0).getPosicionX(), 1, 0.000001);
+	}
+	
+	@Test
+	public void añadirBomba() {
+		mapita.añadirBomba(new Bomba(3,3));
+		Entidad[][] entidades = mapita.getEntidades();
+		Assert.assertTrue(entidades[3][3] instanceof Bomba);
+	}
+	
+	@Test
+	public void explotarBomba() throws InterruptedException {
+		mapita.añadirBomba(new Bomba(3,3));
+		Entidad[][] entidades = mapita.getEntidades();
+		Assert.assertTrue(entidades[3][3] instanceof Bomba);
+		Bomba bombita = (Bomba) entidades[3][3];
+		Thread.sleep(bombita.getTiempoExplosion()*1000);
+		bombita.explotar();
+		Assert.assertTrue(bombita.isExploto());
+	}
+	
+	@Test
+	public void explotarBombaAlLadoDeBomber() {
+		mapita.añadirBomba(new Bomba(3,3));
+		mapita.añadirBomber(new Bomber(4,4));		
+		ArrayList<Bomber> bombers;
+		bombers = mapita.getBombers();
+		Entidad[][] entidades = mapita.getEntidades();
+		Assert.assertTrue(entidades[3][3] instanceof Bomba);
+		Bomba bombita = (Bomba) entidades[3][3];
+		bombita.explotar();
+		for(Bomber bomber: bombers) {
+			if((Math.abs(bomber.getPosicionX()-bombita.getPosicionX()) <= bombita.getRango()) && (Math.abs(bomber.getPosicionY()-bombita.getPosicionY()) <= bombita.getRango())) {
+				bomber.morir();
+			}
+		}
+		for(Bomber bomber: bombers) {
+			Assert.assertTrue(!bomber.EstaVivo());
+		}
+	}
 }

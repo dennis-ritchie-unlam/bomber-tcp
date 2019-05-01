@@ -14,7 +14,11 @@ public class Bomber {
 	}
 
 	public Bomba ponerBomba() {
-		return new Bomba((int) Math.round(this.getPosicionX()),(int) Math.round(this.getPosicionY()));
+		if(bombasDisponibles != 0) {
+			this.bombasDisponibles--;
+			return new Bomba((int) Math.round(this.getPosicionX()),(int) Math.round(this.getPosicionY()));
+		}
+		return null;
 	}
 
 	public void morir() {
