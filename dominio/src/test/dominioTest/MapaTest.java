@@ -32,6 +32,9 @@ public class MapaTest {
 		Assert.assertTrue(entidades[0][0] instanceof Obstaculo);
 		Obstaculo obstaculito = (Obstaculo) entidades[0][0];
 		Assert.assertEquals(false,obstaculito.isDestructible());
+		Assert.assertTrue(entidades[12][5] instanceof Obstaculo);
+		Obstaculo obstaculito1 = (Obstaculo) entidades[12][5];
+		Assert.assertEquals(false,obstaculito1.isDestructible());
 	}
 	
 	@Test
@@ -58,7 +61,7 @@ public class MapaTest {
 		bombers = mapita.getBombers();
 		Assert.assertEquals(1, bombers.size());
 		Assert.assertEquals(bombers.get(0).getPosicionX(), 1, 0.000001);
-		mapita.moverBomber(bombers.get(0), 1,0);
+		mapita.moverBomber(bombers.get(0), 1, 0);
 		Assert.assertEquals(bombers.get(0).getPosicionX(), 2, 0.000001);
 	}
 	
@@ -69,7 +72,7 @@ public class MapaTest {
 		bombers = mapita.getBombers();
 		Assert.assertEquals(1, bombers.size());
 		Assert.assertEquals(bombers.get(0).getPosicionX(), 1, 0.000001);
-		mapita.moverBomber(bombers.get(0), 1,0);
+		mapita.moverBomber(bombers.get(0), 1, 0);
 		Assert.assertEquals(bombers.get(0).getPosicionX(), 1, 0.000001);
 	}
 	
@@ -80,7 +83,7 @@ public class MapaTest {
 		bombers = mapita.getBombers();
 		Assert.assertEquals(1, bombers.size());
 		Assert.assertEquals(bombers.get(0).getPosicionX(), 1, 0.000001);
-		mapita.moverBomber(bombers.get(0), -1,0);
+		mapita.moverBomber(bombers.get(0), -1, 0);
 		Assert.assertEquals(bombers.get(0).getPosicionX(), 1, 0.000001);
 	}
 	
@@ -103,7 +106,7 @@ public class MapaTest {
 	}
 	
 	@Test
-	public void explotarBombaAlLadoDeBomber() {
+	public void explotarMatarBomberConBomba() {
 		mapita.añadirBomba(new Bomba(3,3));
 		mapita.añadirBomber(new Bomber(4,4));		
 		ArrayList<Bomber> bombers;
@@ -112,13 +115,34 @@ public class MapaTest {
 		Assert.assertTrue(entidades[3][3] instanceof Bomba);
 		Bomba bombita = (Bomba) entidades[3][3];
 		bombita.explotar();
-		for(Bomber bomber: bombers) {
-			if((Math.abs(bomber.getPosicionX()-bombita.getPosicionX()) <= bombita.getRango()) && (Math.abs(bomber.getPosicionY()-bombita.getPosicionY()) <= bombita.getRango())) {
-				bomber.morir();
-			}
-		}
-		for(Bomber bomber: bombers) {
-			Assert.assertTrue(!bomber.EstaVivo());
-		}
+		mapita.explotarBomba(bombita);
+		Assert.assertFalse(bombers.get(0).EstaVivo());
+	}
+	
+	@Test
+	public void explotarRomperObstaculoConBomba() {
+		mapita.añadirBomba(new Bomba(3,4));
+		Entidad[][] entidades = mapita.getEntidades();
+		Assert.assertTrue(entidades[3][4] instanceof Bomba);
+		Bomba bombita = (Bomba) entidades[3][4];
+		bombita.explotar();
+		mapita.explotarBomba(bombita);
+		assertEquals(null, entidades[3][5]);
+	}
+	
+	@Test
+	public void eliminarObstaculo() {
+		Entidad[][] entidades = mapita.getEntidades();
+		mapita.eliminarObstaculo(3, 5);
+		assertEquals(null, entidades[3][5]);
+	}
+	
+	@Test
+	public void eliminarBomba() {
+		mapita.añadirBomba(new Bomba(3,3));
+		Entidad[][] entidades = mapita.getEntidades();
+		Assert.assertTrue(entidades[3][3] instanceof Bomba);
+		mapita.eliminarBomba((Bomba)entidades[3][3]);
+		assertEquals(null, entidades[3][3]);
 	}
 }

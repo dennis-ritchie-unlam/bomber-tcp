@@ -47,9 +47,8 @@ public class Mapa {
 		entidades[bombita.getPosicionX()][bombita.getPosicionY()] = bombita;
 	}
 
-	public void eliminarBomba(int x, int y) {
-		if (entidades[x][y] instanceof Bomba)
-			entidades[x][y] = null;
+	public void eliminarBomba(Bomba bombita) {
+		entidades[bombita.getPosicionX()][bombita.getPosicionY()] = null;
 	}
 
 	public void añadirBomber(Bomber personaje) {
@@ -66,4 +65,21 @@ public class Mapa {
 		}
 
 	}
+	
+	public void explotarBomba(Bomba bomb) {
+		for(Bomber bomber: bombers) {
+			if((Math.abs(bomber.getPosicionX()-bomb.getPosicionX()) <= bomb.getRango()) && (Math.abs(bomber.getPosicionY()-bomb.getPosicionY()) <= bomb.getRango())) {
+				bomber.morir();
+			}
+		}
+		//SE CONSIDERA SOLO EL RANGO 1
+		eliminarObstaculo(bomb.getPosicionX() - bomb.getRango(), bomb.getPosicionY());
+		eliminarObstaculo(bomb.getPosicionX() + bomb.getRango(), bomb.getPosicionY());
+		eliminarObstaculo(bomb.getPosicionX(), bomb.getPosicionY() - bomb.getRango()); 
+		eliminarObstaculo(bomb.getPosicionX(), bomb.getPosicionY() + bomb.getRango());	
+		
+		eliminarBomba(bomb);
+	}
+	
+	
 }

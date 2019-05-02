@@ -14,6 +14,10 @@ public class Bomba extends Entidad {
 		this.setExploto(false);
 	}
 
+	public boolean isExploto() {
+		return exploto;
+	}
+
 	public void explotar() {
 		this.setExploto(true);
 	}
@@ -36,10 +40,6 @@ public class Bomba extends Entidad {
 
 	public int getRango() {
 		return rango;
-	}
-
-	public boolean isExploto() {
-		return exploto;
 	}
 
 	public void setExploto(boolean exploto) {
