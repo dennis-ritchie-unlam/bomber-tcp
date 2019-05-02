@@ -100,7 +100,6 @@ public class MapaTest {
 		Entidad[][] entidades = mapita.getEntidades();
 		Assert.assertTrue(entidades[3][3] instanceof Bomba);
 		Bomba bombita = (Bomba) entidades[3][3];
-		Thread.sleep(bombita.getTiempoExplosion()*1000);
 		bombita.explotar();
 		Assert.assertTrue(bombita.isExploto());
 	}
