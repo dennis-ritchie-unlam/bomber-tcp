@@ -72,11 +72,13 @@ public class Mapa {
 				bomber.morir();
 			}
 		}
-		//SE CONSIDERA SOLO EL RANGO 1
-		eliminarObstaculo(bomb.getPosicionX() - bomb.getRango(), bomb.getPosicionY());
-		eliminarObstaculo(bomb.getPosicionX() + bomb.getRango(), bomb.getPosicionY());
-		eliminarObstaculo(bomb.getPosicionX(), bomb.getPosicionY() - bomb.getRango()); 
-		eliminarObstaculo(bomb.getPosicionX(), bomb.getPosicionY() + bomb.getRango());	
+		
+ 		for(int i = 1; i<= bomb.getRango(); i++) {
+			eliminarObstaculo(bomb.getPosicionX() - bomb.getRango(), bomb.getPosicionY());
+			eliminarObstaculo(bomb.getPosicionX() + bomb.getRango(), bomb.getPosicionY());
+			eliminarObstaculo(bomb.getPosicionX(), bomb.getPosicionY() - bomb.getRango()); 
+			eliminarObstaculo(bomb.getPosicionX(), bomb.getPosicionY() + bomb.getRango());	
+ 		}
 		
 		eliminarBomba(bomb);
 	}
