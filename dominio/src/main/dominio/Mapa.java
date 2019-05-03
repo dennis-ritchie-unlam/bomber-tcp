@@ -35,8 +35,8 @@ public class Mapa {
 	}
 
 	public void eliminarObstaculo(int x, int y) {
-		if (entidades[x][y] instanceof Obstaculo && ((Obstaculo) entidades[x][y]).isDestructible())
-			entidades[x][y] = null;
+		if (entidades[y][x] instanceof Obstaculo && ((Obstaculo) entidades[y][x]).isDestructible())
+			entidades[y][x] = null;
 	}
 
 	public Entidad[][] getEntidades() {
@@ -44,11 +44,11 @@ public class Mapa {
 	}
 
 	public void añadirBomba(Bomba bombita) {
-		entidades[bombita.getPosicionX()][bombita.getPosicionY()] = bombita;
+		entidades[bombita.getPosicionY()][bombita.getPosicionX()] = bombita;
 	}
 
 	public void eliminarBomba(Bomba bombita) {
-		entidades[bombita.getPosicionX()][bombita.getPosicionY()] = null;
+		entidades[bombita.getPosicionY()][bombita.getPosicionX()] = null;
 	}
 
 	public void añadirBomber(Bomber personaje) {
@@ -59,7 +59,7 @@ public class Mapa {
 		double personajeX = personaje.getPosicionX();
 		double personajeY = personaje.getPosicionY();
 		
-		if( entidades[(int)(personajeX + despX)][(int)(personajeY + despY)] == null ) {
+		if( entidades[(int)(personajeY + despY)][(int)(personajeX + despX)] == null ) {
 			personaje.setPosicionX(personajeX+despX);
 			personaje.setPosicionY(personajeY+despY);
 		}
