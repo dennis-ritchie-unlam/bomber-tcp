@@ -120,7 +120,7 @@ public class MapaTest {
 	
 	@Test
 	public void explotarRomperObstaculoConBomba() {
-		mapita.añadirBomba(new Bomba(3,4));
+		mapita.añadirBomba(new Bomba(4,3));
 		Entidad[][] entidades = mapita.getEntidades();
 		Assert.assertTrue(entidades[3][4] instanceof Bomba);
 		Bomba bombita = (Bomba) entidades[3][4];
@@ -132,8 +132,8 @@ public class MapaTest {
 	@Test
 	public void eliminarObstaculo() {
 		Entidad[][] entidades = mapita.getEntidades();
-		mapita.eliminarObstaculo(3, 5);
-		assertEquals(null, entidades[3][5]);
+		mapita.eliminarObstaculo(5, 3);
+		assertEquals(null, entidades[5][3]);
 	}
 	
 	@Test
