@@ -56,4 +56,9 @@ public class Bomber {
 	public void setPosicionY(double posicionY) {
 		this.posicionY = posicionY;
 	}
+	
+	public void moverse(double despX, double despY) {
+		setPosicionX(posicionX + despX);
+		setPosicionY(posicionY + despY);
+	}
 }
