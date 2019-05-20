@@ -1,6 +1,6 @@
 package main.dominio;
 
-public class Bomber {
+public class Bomber implements Entidad{
     private boolean estaVivo;
     private int bombasDisponibles;
     private double posicionX;
@@ -21,10 +21,6 @@ public class Bomber {
         return null;
     }
 
-    public void morir() {
-        this.estaVivo = false;
-    }
-
     public boolean EstaVivo() {
         return estaVivo;
     }
@@ -40,19 +36,23 @@ public class Bomber {
     public void setBombasDisponibles(int bombasDisponibles) {
         this.bombasDisponibles = bombasDisponibles;
     }
-
+    
+    @Override
     public double getPosicionX() {
         return posicionX;
     }
 
+    @Override
     public void setPosicionX(double posicionX) {
         this.posicionX = posicionX;
     }
 
+    @Override
     public double getPosicionY() {
         return posicionY;
     }
 
+    @Override
     public void setPosicionY(double posicionY) {
         this.posicionY = posicionY;
     }
@@ -61,4 +61,9 @@ public class Bomber {
         setPosicionX(posicionX + despX);
         setPosicionY(posicionY + despY);
     }
+
+	@Override
+	public void explotar() {
+		this.estaVivo = false;
+	}
 }

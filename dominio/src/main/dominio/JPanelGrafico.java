@@ -15,11 +15,17 @@ public class JPanelGrafico extends JPanel {
     private Mapa mapa;
     
     private ImageIcon bombaIcon;
+    private ImageIcon obstaculoIcon;
     private Bomba bomba;
+    int blockSize;
+    int bombSize;
     
     public JPanelGrafico() {
+        blockSize = 40;
+        bombSize = 30;
         bomberIcon = new ImageIcon("./Images/Bombermans/Player 1/01.gif");
         bombaIcon = new ImageIcon("./Images/BomberBombs/2.gif");
+        obstaculoIcon = new ImageIcon("./Images/BomberWalls/1.jpg");
         matrixBomberIcons = new ImageIcon[4][5];
         for (int i = 0; i < 4; i++)
         	for (int j = 0; j < 5; j++)
@@ -34,18 +40,25 @@ public class JPanelGrafico extends JPanel {
     public synchronized void paintComponent(Graphics g) {
         super.paintComponent(g);
         setBackground(new Color(52,108,108));
-       
-        double escala = Mapa.ESCALA;
-        g.drawImage(bomberIcon.getImage(),  (int) (bomber.getPosicionX() * escala), (int) (bomber.getPosicionY() * escala), null);
+        
+        int sumaY = 0;
+        for(int i = 0; i < Mapa.ALTO; i++) {
+        	int sumaX = 0;
+        	
+        	for(int j = 0; j < Mapa.ANCHO; j++) {
+        		sumaX++;
+        		if (mapa.entidades[i][j] != null)
+        			g.drawImage(obstaculoIcon.getImage(), sumaX, sumaY, blockSize, blockSize, null);
+        		sumaX+= blockSize;
+        	}
+        	sumaY+= blockSize;
+        	sumaY++;
+        }
+        g.drawImage(bomberIcon.getImage(),  (int) (bomber.getPosicionX() * blockSize), (int) (bomber.getPosicionY() * blockSize), 30, 60, null);
         if(bomba != null)
         	g.drawImage(bombaIcon.getImage(), 
-                    (int) (bomba.getPosicionX() * escala + bomberIcon.getIconWidth() - bombaIcon.getIconWidth()), 
-                    (int) (bomba.getPosicionY() * escala + bomberIcon.getIconHeight() - bombaIcon.getIconHeight()), 20, 20, null);
-//        g.drawImage(bomberIcon.getImage(),  Mapa.descalarPosicion(bomber.getPosicionX()), Mapa.escalarPosicion(bomber.getPosicionY()), null);
-//        if(bomba != null)
-//        	g.drawImage(bombaIcon.getImage(), 
-//                    Mapa.descalarPosicion(bomba.getPosicionX()) + bomberIcon.getIconWidth() - bombaIcon.getIconWidth(), 
-//                    Mapa.descalarPosicion(bomba.getPosicionY()) + bomberIcon.getIconHeight() - bombaIcon.getIconHeight(), 20, 20, null);
+                    (int) (bomba.getPosicionX() * blockSize + bomberIcon.getIconWidth() - bombaIcon.getIconWidth()), 
+                    (int) (bomba.getPosicionY() * blockSize + bomberIcon.getIconHeight() - bombaIcon.getIconHeight()), bombSize, bombSize, null);
     }
 
     public void setBomberIcon(int i, double j) {

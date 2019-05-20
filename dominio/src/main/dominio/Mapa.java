@@ -3,11 +3,10 @@ package main.dominio;
 import java.util.ArrayList;
 
 public class Mapa {
-    private Entidad[][] entidades;
-    private ArrayList<Bomber> bombers;
-    private static final int ALTO = 13;
-    private static final int ANCHO = 15;
-    public static double ESCALA = 100.0;
+    Entidad[][] entidades;
+    ArrayList<Bomber> bombers;
+    static final int ALTO = 13;
+    static final int ANCHO = 15;
 
     public Mapa() {
         entidades = new Entidad[ALTO][ANCHO];
@@ -30,63 +29,36 @@ public class Mapa {
         }
     }
 
-    public ArrayList<Bomber> getBombers() {
-        return bombers;
-    }
-
     public void eliminarObstaculo(int x, int y) {
         if (entidades[y][x] instanceof Obstaculo && ((Obstaculo) entidades[y][x]).isDestructible())
             entidades[y][x] = null;
     }
 
-    public Entidad[][] getEntidades() {
-        return entidades;
-    }
-
     public void añadirBomba(Bomba bombita) {
-        entidades[escalarPosicion(bombita.getPosicionY())][escalarPosicion(bombita.getPosicionX())] = bombita;
-    }
-    
-    public static int escalarPosicion(double pos) {
-    	return (int) (pos / ESCALA);
-    }
-    
-    public static int descalarPosicion(double pos) {
-    	return (int) (pos * ESCALA);
+        entidades[(int) bombita.getPosicionY()][(int) bombita.getPosicionX()] = bombita;
     }
 
     public void eliminarBomba(Bomba bombita) {
-        entidades[escalarPosicion(bombita.getPosicionY())][escalarPosicion(bombita.getPosicionX())] = null;
+        entidades[(int) bombita.getPosicionY()][(int) bombita.getPosicionX()] = null;
     }
 
     public void añadirBomber(Bomber personaje) {
         bombers.add(personaje);
     }
 
-    public void moverBomber(Bomber personaje, double despX, double despY) {
-        double personajeX = personaje.getPosicionX();
-        double personajeY = personaje.getPosicionY();
-
-        if (entidades[(int) (personajeY + despY)][(int) (personajeX + despX)] == null) {
-            personaje.setPosicionX(personajeX + despX);
-            personaje.setPosicionY(personajeY + despY);
-        }
-
-    }
-
     public void explotarBomba(Bomba bomb) {
         for (Bomber bomber : bombers) {
             if ((Math.abs(bomber.getPosicionX() - bomb.getPosicionX()) <= bomb.getRango())
                     && (Math.abs(bomber.getPosicionY() - bomb.getPosicionY()) <= bomb.getRango())) {
-                bomber.morir();
+                bomber.explotar();
             }
         }
 
         for (int i = 1; i <= bomb.getRango(); i++) {
-            eliminarObstaculo(escalarPosicion(bomb.getPosicionX() - bomb.getRango()), escalarPosicion(bomb.getPosicionY()));
-            eliminarObstaculo(escalarPosicion(bomb.getPosicionX() + bomb.getRango()), escalarPosicion(bomb.getPosicionY()));
-            eliminarObstaculo(escalarPosicion(bomb.getPosicionX()), escalarPosicion(bomb.getPosicionY() - bomb.getRango()));
-            eliminarObstaculo(escalarPosicion(bomb.getPosicionX()), escalarPosicion(bomb.getPosicionY() + bomb.getRango()));
+            eliminarObstaculo((int)(bomb.getPosicionX() - bomb.getRango()), (int)bomb.getPosicionY());
+            eliminarObstaculo((int)(bomb.getPosicionX() + bomb.getRango()), (int)bomb.getPosicionY());
+            eliminarObstaculo((int)bomb.getPosicionX(), (int)(bomb.getPosicionY() - bomb.getRango()));
+            eliminarObstaculo((int)bomb.getPosicionX(), (int)(bomb.getPosicionY() + bomb.getRango()));
         }
 
         eliminarBomba(bomb);

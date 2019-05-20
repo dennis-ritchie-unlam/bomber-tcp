@@ -1,28 +1,15 @@
 package main.dominio;
 
-public abstract class Entidad {
-	private double posicionX;
-	private double posicionY;
+public interface Entidad {
 
-	public Entidad(double posX, double posY) {
-		this.posicionX = posX;
-		this.posicionY = posY;
-	}
+	double getPosicionX();
 
-	public double getPosicionX() {
-		return posicionX;
-	}
+	void setPosicionX(double posicionX);
 
-	public void setPosicionX(int posicionX) {
-		this.posicionX = posicionX;
-	}
+	double getPosicionY();
 
-	public double getPosicionY() {
-		return posicionY;
-	}
-
-	public void setPosicionY(int posicionY) {
-		this.posicionY = posicionY;
-	}
+	void setPosicionY(double posicionY);
+	
+	void explotar();
 
 }

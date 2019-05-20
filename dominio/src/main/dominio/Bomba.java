@@ -1,13 +1,16 @@
 package main.dominio;
 
-public class Bomba extends Entidad {
+public class Bomba implements Entidad {
     private int tiempoExplosion;
     private int duracionExplosion;
     private int rango;
     private boolean exploto;
+    private double posicionX;
+    private double posicionY;
 
     public Bomba(double posX, double posY) {
-        super(posX, posY);
+    	posicionX = posX;
+    	posicionY = posY;
         this.tiempoExplosion = 2;
         this.duracionExplosion = 1;
         this.rango = 1;
@@ -45,5 +48,25 @@ public class Bomba extends Entidad {
     public void setExploto(boolean exploto) {
         this.exploto = exploto;
     }
+
+	@Override
+	public double getPosicionX() {
+		return posicionX;
+	}
+
+	@Override
+	public void setPosicionX(double posicionX) {
+		this.posicionX = posicionX;		
+	}
+
+	@Override
+	public double getPosicionY() {
+		return posicionY;
+	}
+
+	@Override
+	public void setPosicionY(double posicionY) {
+		this.posicionY = posicionY;		
+	}
 
 }

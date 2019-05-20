@@ -33,9 +33,8 @@ public class JVentanaGrafica extends JFrame {
 	public void setMovimiento(KeyEvent evento) {
 		Bomber nuevoBomber = contentPane.getBomber();
 
-		double escala = Mapa.ESCALA;
 		double cantPosMover = 15;
-		double moverse = cantPosMover / escala;
+		double moverse = cantPosMover / contentPane.blockSize;
 
 		if (evento.getKeyCode() == KeyEvent.VK_DOWN) {
 			double posX = nuevoBomber.getPosicionX();
