@@ -29,7 +29,5 @@ local.properties
 # Eclipse Workspace
 .metadata
 .recommenders
-.classpath
-.project
 **/.settings
 RemoteSystemsTempFiles
