@@ -5,12 +5,12 @@ public class Bomba implements Entidad {
     private int duracionExplosion;
     private int rango;
     private boolean exploto;
-    private double posicionX;
-    private double posicionY;
+    private int posicionX;
+    private int posicionY;
 
     public Bomba(double posX, double posY) {
-    	posicionX = posX;
-    	posicionY = posY;
+    	posicionX = (int)Math.round(posX);
+    	posicionY = (int)Math.round(posY);
         this.tiempoExplosion = 2;
         this.duracionExplosion = 1;
         this.rango = 1;
@@ -56,7 +56,7 @@ public class Bomba implements Entidad {
 
 	@Override
 	public void setPosicionX(double posicionX) {
-		this.posicionX = posicionX;		
+		this.posicionX = (int)Math.round(posicionX);		
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class Bomba implements Entidad {
 
 	@Override
 	public void setPosicionY(double posicionY) {
-		this.posicionY = posicionY;		
+		this.posicionY = (int)Math.round(posicionY);		
 	}
 
 }

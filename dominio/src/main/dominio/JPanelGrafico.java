@@ -22,7 +22,7 @@ public class JPanelGrafico extends JPanel {
     
     public JPanelGrafico() {
         blockSize = 40;
-        bombSize = 30;
+        bombSize = 31;
         bomberIcon = new ImageIcon("./Images/Bombermans/Player 1/01.gif");
         bombaIcon = new ImageIcon("./Images/BomberBombs/2.gif");
         obstaculoIcon = new ImageIcon("./Images/BomberWalls/1.jpg");
@@ -54,11 +54,11 @@ public class JPanelGrafico extends JPanel {
         	sumaY+= blockSize;
         	sumaY++;
         }
-        g.drawImage(bomberIcon.getImage(),  (int) (bomber.getPosicionX() * blockSize), (int) (bomber.getPosicionY() * blockSize), 30, 60, null);
+        g.drawImage(bomberIcon.getImage(),  (int) Math.round(bomber.getPosicionX() * blockSize), (int) Math.round(bomber.getPosicionY() * blockSize), 30, 60, null);
         if(bomba != null)
         	g.drawImage(bombaIcon.getImage(), 
-                    (int) (bomba.getPosicionX() * blockSize + bomberIcon.getIconWidth() - bombaIcon.getIconWidth()), 
-                    (int) (bomba.getPosicionY() * blockSize + bomberIcon.getIconHeight() - bombaIcon.getIconHeight()), bombSize, bombSize, null);
+                    (int)(bomba.getPosicionX() * blockSize + bomberIcon.getIconWidth() - bombaIcon.getIconWidth()), 
+                    (int)(bomba.getPosicionY() * blockSize + bomberIcon.getIconHeight() - bombaIcon.getIconHeight()), bombSize, bombSize, null);
     }
 
     public void setBomberIcon(int i, double j) {

@@ -33,7 +33,7 @@ public class JVentanaGrafica extends JFrame {
 	public void setMovimiento(KeyEvent evento) {
 		Bomber nuevoBomber = contentPane.getBomber();
 
-		double cantPosMover = 15;
+		double cantPosMover = 5;
 		double moverse = cantPosMover / contentPane.blockSize;
 
 		if (evento.getKeyCode() == KeyEvent.VK_DOWN) {
@@ -77,7 +77,7 @@ public class JVentanaGrafica extends JFrame {
 			contentPane.setBomber(nuevoBomber);
 		}
 		if (evento.getKeyCode() == KeyEvent.VK_SPACE) {
-			contentPane.setBomba(new Bomba((int) nuevoBomber.getPosicionX(), (int) nuevoBomber.getPosicionY()));
+			contentPane.setBomba(new Bomba(nuevoBomber.getPosicionX(), nuevoBomber.getPosicionY()));
 		}
 		repaint();
 	}

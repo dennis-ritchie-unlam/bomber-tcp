@@ -35,11 +35,11 @@ public class Mapa {
     }
 
     public void añadirBomba(Bomba bombita) {
-        entidades[(int) bombita.getPosicionY()][(int) bombita.getPosicionX()] = bombita;
+        entidades[(int) Math.round(bombita.getPosicionY())][(int) Math.round(bombita.getPosicionX())] = bombita;
     }
 
     public void eliminarBomba(Bomba bombita) {
-        entidades[(int) bombita.getPosicionY()][(int) bombita.getPosicionX()] = null;
+        entidades[(int) Math.round(bombita.getPosicionY())][(int) Math.round(bombita.getPosicionX())] = null;
     }
 
     public void añadirBomber(Bomber personaje) {
@@ -55,10 +55,10 @@ public class Mapa {
         }
 
         for (int i = 1; i <= bomb.getRango(); i++) {
-            eliminarObstaculo((int)(bomb.getPosicionX() - bomb.getRango()), (int)bomb.getPosicionY());
-            eliminarObstaculo((int)(bomb.getPosicionX() + bomb.getRango()), (int)bomb.getPosicionY());
-            eliminarObstaculo((int)bomb.getPosicionX(), (int)(bomb.getPosicionY() - bomb.getRango()));
-            eliminarObstaculo((int)bomb.getPosicionX(), (int)(bomb.getPosicionY() + bomb.getRango()));
+            eliminarObstaculo((int)Math.round(bomb.getPosicionX() - bomb.getRango()), (int)Math.round(bomb.getPosicionY()));
+            eliminarObstaculo((int)Math.round(bomb.getPosicionX() + bomb.getRango()), (int)Math.round(bomb.getPosicionY()));
+            eliminarObstaculo((int)Math.round(bomb.getPosicionX()), (int)Math.round(bomb.getPosicionY() - bomb.getRango()));
+            eliminarObstaculo((int)Math.round(bomb.getPosicionX()), (int)Math.round(bomb.getPosicionY() + bomb.getRango()));
         }
 
         eliminarBomba(bomb);
