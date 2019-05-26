@@ -52,13 +52,13 @@ public class BomberTest {
 	
 	@Test
 	public void matarBomber() {
-		bomber.morir();
+		bomber.explotar();
 		assertFalse(bomber.EstaVivo());
 	}
 	
 	@Test
 	public void revivirBomber() {
-		bomber.morir();
+		bomber.explotar();
 		assertFalse(bomber.EstaVivo());
 		bomber.revivir();
 		assertTrue(bomber.EstaVivo());
