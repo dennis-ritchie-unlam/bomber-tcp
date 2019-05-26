@@ -40,7 +40,7 @@ public class JVentanaGrafica extends JFrame {
 			double posX = nuevoBomber.getPosicionX();
 			double posY = nuevoBomber.getPosicionY() + moverse;
 
-			if (!colisionador.verificarColision(posX, posY)) {
+			if (!colisionador.verificarColision( (int) Math.round(posX), (int) Math.ceil(posY))) {
 				nuevoBomber.moverse(0, moverse);
 			}
 			contentPane.setBomberIcon(0, posY);
@@ -50,7 +50,7 @@ public class JVentanaGrafica extends JFrame {
 			double posX = nuevoBomber.getPosicionX();
 			double posY = nuevoBomber.getPosicionY() - moverse;
 
-			if (!colisionador.verificarColision(posX, posY)) {
+			if (!colisionador.verificarColision( (int) Math.round(posX), (int) Math.floor(posY))) {
 				nuevoBomber.moverse(0, -moverse);
 			}
 			contentPane.setBomberIcon(1, posY);
@@ -60,7 +60,7 @@ public class JVentanaGrafica extends JFrame {
 			double posX = nuevoBomber.getPosicionX() - moverse;
 			double posY = nuevoBomber.getPosicionY();
 
-			if (!colisionador.verificarColision(posX, posY)) {
+			if (!colisionador.verificarColision( (int) Math.floor(posX), (int) Math.round(posY))) {
 				nuevoBomber.moverse(-moverse, 0);
 			}
 			contentPane.setBomberIcon(2, posX);
@@ -70,7 +70,7 @@ public class JVentanaGrafica extends JFrame {
 			double posX = nuevoBomber.getPosicionX() + moverse;
 			double posY = nuevoBomber.getPosicionY();
 
-			if (!colisionador.verificarColision(posX, posY)) {
+			if (!colisionador.verificarColision((int) Math.ceil(posX), (int) Math.round(posY))) {
 				nuevoBomber.moverse(moverse, 0);
 			}
 			contentPane.setBomberIcon(3, posX);

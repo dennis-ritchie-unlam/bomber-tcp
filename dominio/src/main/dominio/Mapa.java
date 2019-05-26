@@ -65,7 +65,7 @@ public class Mapa {
     }
 
 	public boolean hayAlgo(int posX, int posY) {
-		if(posX < 0 || posY < 0|| (ANCHO-1 < posX) || (ALTO-1 < posY))
+		if(posX < 0 || posY < 0|| (ANCHO < posX) || (ALTO < posY))
 			return true;
 		      
 		if(entidades[posY][posX] != null)

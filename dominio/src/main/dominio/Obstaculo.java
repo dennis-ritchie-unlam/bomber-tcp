@@ -5,9 +5,9 @@ public class Obstaculo implements Entidad {
     private int posicionX;
     private int posicionY;
 
-    public Obstaculo(int posX, int posY, boolean destructible) {
+    public Obstaculo(int posY, int posX, boolean destructible) {
+    	posicionY = posY;
         posicionX = posX;
-        posicionY = posY;
         this.destructible = destructible;
     }
 
