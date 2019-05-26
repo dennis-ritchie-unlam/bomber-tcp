@@ -43,14 +43,20 @@ public class JPanelGrafico extends JPanel {
 		super.paintComponent(g);
 		setBackground(new Color(52, 108, 108));
 
+		dibujarObstaculos(g);
+		dibujarBomber(g);
+		dibujarBomba(g);
+	}
+
+	private void dibujarObstaculos(Graphics g) {
 		int posX;
 		int posY;
 		for (int i = 0; i < Mapa.ALTO; i++) {
 			for (int j = 0; j < Mapa.ANCHO; j++) {
 				if (mapa.entidades[i][j] != null) {
 					Obstaculo obstaculito = (Obstaculo) mapa.entidades[i][j];
-					posX = ((int) Math.round(obstaculito.getPosicionX() * blockSize)) ;
-					posY = ((int) Math.round(obstaculito.getPosicionY() * blockSize)) ;
+					posX = ((int) Math.round(obstaculito.getPosicionX() * blockSize));
+					posY = ((int) Math.round(obstaculito.getPosicionY() * blockSize));
 					if (!obstaculito.isDestructible()) {
 						g.drawImage(obstaculoIcon.getImage(), posX, posY, blockSize, blockSize, null);
 					} else {
@@ -59,8 +65,14 @@ public class JPanelGrafico extends JPanel {
 				}
 			}
 		}
+	}
+
+	private void dibujarBomber(Graphics g) {
 		g.drawImage(bomberIcon.getImage(), (int) Math.round(bomber.getPosicionX() * blockSize),
 				(int) Math.round(bomber.getPosicionY() * blockSize), 30, 60, null);
+	}
+
+	private void dibujarBomba(Graphics g) {
 		if (bomba != null)
 			g.drawImage(bombaIcon.getImage(),
 					(int) (bomba.getPosicionX() * blockSize + bomberIcon.getIconWidth() - bombaIcon.getIconWidth()),
