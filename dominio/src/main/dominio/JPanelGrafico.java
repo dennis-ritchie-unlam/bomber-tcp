@@ -25,7 +25,7 @@ public class JPanelGrafico extends JPanel {
 	public JPanelGrafico() {
 		blockSize = 32;//16 * 2
 		bombSize = 32;//16 * 2;
-		bomberSize = 36;//18 * 2;
+		bomberSize = 32;//18 * 2;
 		bomberIcon = new ImageIcon("./Images/Bombermans/Player 1/01.gif");
 		bombaIcon = new ImageIcon("./Images/BomberBombs/2.gif");
 		obstaculoIcon = new ImageIcon("./Images/BomberWalls/1.jpg");
@@ -46,8 +46,9 @@ public class JPanelGrafico extends JPanel {
 		setBackground(new Color(52, 108, 108));
 
 		dibujarObstaculos(g);
-		dibujarBomber(g);
 		dibujarBomba(g);
+		dibujarBomber(g);
+		
 	}
 
 	private void dibujarObstaculos(Graphics g) {
@@ -70,15 +71,15 @@ public class JPanelGrafico extends JPanel {
 	}
 
 	private void dibujarBomber(Graphics g) {
-		g.drawImage(bomberIcon.getImage(), (int) Math.ceil(bomber.getPosicionX() * blockSize),
+		g.drawImage(bomberIcon.getImage(), (int) Math.round(bomber.getPosicionX() * blockSize),
 				(int) Math.ceil(bomber.getPosicionY() * blockSize), bomberSize, bomberSize, null);
 	}
 
 	private void dibujarBomba(Graphics g) {
 		if (bomba != null)
 			g.drawImage(bombaIcon.getImage(),
-					(int) (bomba.getPosicionX() * blockSize + bomberIcon.getIconWidth() - bombaIcon.getIconWidth()),
-					(int) (bomba.getPosicionY() * blockSize + bomberIcon.getIconHeight() - bombaIcon.getIconHeight()),
+					(int) Math.round(bomba.getPosicionX() * bombSize),
+					(int) Math.ceil(bomba.getPosicionY() * bombSize),
 					bombSize, bombSize, null);
 	}
 
