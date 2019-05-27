@@ -78,7 +78,11 @@ public class JVentanaGrafica extends JFrame {
 			contentPane.setBomber(nuevoBomber);
 		}
 		if (evento.getKeyCode() == KeyEvent.VK_SPACE) {
-			contentPane.setBomba(new Bomba(nuevoBomber.getPosicionX(), nuevoBomber.getPosicionY()));
+			Bomba bombita = nuevoBomber.ponerBomba();
+			if(bombita != null) {
+				contentPane.setBomba(bombita);
+			}
+			
 		}
 		repaint();
 	}

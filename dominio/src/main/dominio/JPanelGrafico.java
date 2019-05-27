@@ -52,7 +52,7 @@ public class JPanelGrafico extends JPanel {
 		int posY;
 		for (int i = 0; i < Mapa.ALTO; i++) {
 			for (int j = 0; j < Mapa.ANCHO; j++) {
-				if (mapa.entidades[i][j] != null) {
+				if (mapa.entidades[i][j] != null && mapa.entidades[i][j] instanceof Obstaculo) {
 					Obstaculo obstaculito = (Obstaculo) mapa.entidades[i][j];
 					posX = ((int) Math.round(obstaculito.getPosicionX() * BLOCK_SIZE));
 					posY = ((int) Math.round(obstaculito.getPosicionY() * BLOCK_SIZE));
@@ -98,6 +98,7 @@ public class JPanelGrafico extends JPanel {
 
 	public void setBomba(Bomba bomba) {
 		this.bomba = bomba;
+		this.mapa.añadirBomba(bomba);
 	}
 
 }
