@@ -18,14 +18,10 @@ public class JPanelGrafico extends JPanel {
 	private ImageIcon obstaculoIcon;
 	private ImageIcon obstaculoDestructibleIcon;
 	private Bomba bomba;
-	int blockSize;
-	int bombSize;
-	int bomberSize;
+	
+	final int BLOCK_SIZE = 32; 
 
 	public JPanelGrafico() {
-		blockSize = 32;//16 * 2
-		bombSize = 32;//16 * 2;
-		bomberSize = 36;//18 * 2;
 		bomberIcon = new ImageIcon("./Images/Bombermans/Player 1/01.gif");
 		bombaIcon = new ImageIcon("./Images/BomberBombs/2.gif");
 		obstaculoIcon = new ImageIcon("./Images/BomberWalls/1.jpg");
@@ -57,12 +53,12 @@ public class JPanelGrafico extends JPanel {
 			for (int j = 0; j < Mapa.ANCHO; j++) {
 				if (mapa.entidades[i][j] != null) {
 					Obstaculo obstaculito = (Obstaculo) mapa.entidades[i][j];
-					posX = ((int) Math.ceil(obstaculito.getPosicionX() * blockSize));
-					posY = ((int) Math.ceil(obstaculito.getPosicionY() * blockSize));
+					posX = ((int) Math.round(obstaculito.getPosicionX() * BLOCK_SIZE));
+					posY = ((int) Math.round(obstaculito.getPosicionY() * BLOCK_SIZE));
 					if (!obstaculito.isDestructible()) {
-						g.drawImage(obstaculoIcon.getImage(), posX, posY, blockSize, blockSize, null);
+						g.drawImage(obstaculoIcon.getImage(), posX, posY, BLOCK_SIZE, BLOCK_SIZE, null);
 					} else {
-						g.drawImage(obstaculoDestructibleIcon.getImage(), posX, posY, blockSize, blockSize, null);
+						g.drawImage(obstaculoDestructibleIcon.getImage(), posX, posY, BLOCK_SIZE, BLOCK_SIZE, null);
 					}
 				}
 			}
@@ -70,16 +66,16 @@ public class JPanelGrafico extends JPanel {
 	}
 
 	private void dibujarBomber(Graphics g) {
-		g.drawImage(bomberIcon.getImage(), (int) Math.ceil(bomber.getPosicionX() * blockSize),
-				(int) Math.ceil(bomber.getPosicionY() * blockSize), bomberSize, bomberSize, null);
+		g.drawImage(bomberIcon.getImage(), (int) Math.round(bomber.getPosicionX() * BLOCK_SIZE),
+				(int) Math.ceil(bomber.getPosicionY() * BLOCK_SIZE), BLOCK_SIZE, BLOCK_SIZE, null);
 	}
 
 	private void dibujarBomba(Graphics g) {
 		if (bomba != null)
 			g.drawImage(bombaIcon.getImage(),
-					(int) (bomba.getPosicionX() * blockSize + bomberIcon.getIconWidth() - bombaIcon.getIconWidth()),
-					(int) (bomba.getPosicionY() * blockSize + bomberIcon.getIconHeight() - bombaIcon.getIconHeight()),
-					bombSize, bombSize, null);
+					(int) (bomba.getPosicionX() * BLOCK_SIZE + bomberIcon.getIconWidth() - bombaIcon.getIconWidth()),
+					(int) (bomba.getPosicionY() * BLOCK_SIZE + bomberIcon.getIconHeight() - bombaIcon.getIconHeight()),
+					BLOCK_SIZE, BLOCK_SIZE, null);
 	}
 
 	public void setBomberIcon(int i, double j) {

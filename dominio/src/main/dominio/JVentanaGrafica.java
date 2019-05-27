@@ -16,10 +16,11 @@ public class JVentanaGrafica extends JFrame {
 
 	public JVentanaGrafica() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
 		contentPane = new JPanelGrafico();
 		setContentPane(contentPane);
-		setBounds(0, 0, 800, 600);
+		setBounds(0, 0, Mapa.ANCHO * contentPane.BLOCK_SIZE + contentPane.BLOCK_SIZE / 2,
+				Mapa.ALTO * contentPane.BLOCK_SIZE + contentPane.BLOCK_SIZE * 5 / 4);
+		setLocationRelativeTo(null);
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
@@ -34,7 +35,7 @@ public class JVentanaGrafica extends JFrame {
 		Bomber nuevoBomber = contentPane.getBomber();
 
 		double cantPosMover = 5;
-		double moverse = cantPosMover / contentPane.blockSize;
+		double moverse = cantPosMover / contentPane.BLOCK_SIZE;
 
 		if (evento.getKeyCode() == KeyEvent.VK_DOWN) {
 			double posX = nuevoBomber.getPosicionX();
