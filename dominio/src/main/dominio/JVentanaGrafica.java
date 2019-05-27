@@ -36,53 +36,56 @@ public class JVentanaGrafica extends JFrame {
 
 		double cantPosMover = 5;
 		double moverse = cantPosMover / contentPane.BLOCK_SIZE;
+		double posX;
+		double posY;
 
-		if (evento.getKeyCode() == KeyEvent.VK_DOWN) {
-			double posX = nuevoBomber.getPosicionX();
-			double posY = nuevoBomber.getPosicionY() + moverse;
+		switch(evento.getKeyCode()) {
+			case KeyEvent.VK_DOWN: 
+				posX = nuevoBomber.getPosicionX();
+				posY = nuevoBomber.getPosicionY() + moverse;
 
-			if (!colisionador.verificarColision( (int) Math.round(posX), (int) Math.ceil(posY))) {
-				nuevoBomber.moverse(0, moverse);
-			}
-			contentPane.setBomberIcon(0, posY);
-			contentPane.setBomber(nuevoBomber);
-		}
-		if (evento.getKeyCode() == KeyEvent.VK_UP) {
-			double posX = nuevoBomber.getPosicionX();
-			double posY = nuevoBomber.getPosicionY() - moverse;
+				if (!colisionador.verificarColision( (int) Math.round(posX), (int) Math.ceil(posY))) {
+					nuevoBomber.moverse(0, moverse);
+				}
+				contentPane.setBomberIcon(0, posY);
+				contentPane.setBomber(nuevoBomber);
+			break;
+			case KeyEvent.VK_UP:
+				posX = nuevoBomber.getPosicionX();
+				posY = nuevoBomber.getPosicionY() - moverse;
 
-			if (!colisionador.verificarColision( (int) Math.round(posX), (int) Math.floor(posY))) {
-				nuevoBomber.moverse(0, -moverse);
-			}
-			contentPane.setBomberIcon(1, posY);
-			contentPane.setBomber(nuevoBomber);
-		}
-		if (evento.getKeyCode() == KeyEvent.VK_LEFT) {
-			double posX = nuevoBomber.getPosicionX() - moverse;
-			double posY = nuevoBomber.getPosicionY();
+				if (!colisionador.verificarColision( (int) Math.round(posX), (int) Math.floor(posY))) {
+					nuevoBomber.moverse(0, -moverse);
+				}
+				contentPane.setBomberIcon(1, posY);
+				contentPane.setBomber(nuevoBomber);
+			break;
+			case KeyEvent.VK_LEFT:
+				posX = nuevoBomber.getPosicionX() - moverse;
+				posY = nuevoBomber.getPosicionY();
 
-			if (!colisionador.verificarColision( (int) Math.floor(posX), (int) Math.round(posY + 0.45))) {
-				nuevoBomber.moverse(-moverse, 0);
-			}
-			contentPane.setBomberIcon(2, posX);
-			contentPane.setBomber(nuevoBomber);
-		}
-		if (evento.getKeyCode() == KeyEvent.VK_RIGHT) {
-			double posX = nuevoBomber.getPosicionX() + moverse;
-			double posY = nuevoBomber.getPosicionY();
+				if (!colisionador.verificarColision( (int) Math.floor(posX), (int) Math.round(posY + 0.45))) {
+					nuevoBomber.moverse(-moverse, 0);
+				}
+				contentPane.setBomberIcon(2, posX);
+				contentPane.setBomber(nuevoBomber);
+				break;
+			case KeyEvent.VK_RIGHT:
+				posX = nuevoBomber.getPosicionX() + moverse;
+				posY = nuevoBomber.getPosicionY();
 
-			if (!colisionador.verificarColision((int) Math.ceil(posX), (int) Math.round(posY + 0.45))) {
-				nuevoBomber.moverse(moverse, 0);
-			}
-			contentPane.setBomberIcon(3, posX);
-			contentPane.setBomber(nuevoBomber);
-		}
-		if (evento.getKeyCode() == KeyEvent.VK_SPACE) {
-			Bomba bombita = nuevoBomber.ponerBomba();
-			if(bombita != null) {
-				contentPane.setBomba(bombita);
-			}
-			
+				if (!colisionador.verificarColision((int) Math.ceil(posX), (int) Math.round(posY + 0.45))) {
+					nuevoBomber.moverse(moverse, 0);
+				}
+				contentPane.setBomberIcon(3, posX);
+				contentPane.setBomber(nuevoBomber);
+				break;
+			case KeyEvent.VK_SPACE:
+				Bomba bombita = nuevoBomber.ponerBomba();
+				if(bombita != null) {
+					contentPane.setBomba(bombita);
+				}
+				break;
 		}
 		repaint();
 	}
