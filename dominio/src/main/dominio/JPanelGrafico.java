@@ -42,8 +42,9 @@ public class JPanelGrafico extends JPanel {
 		setBackground(new Color(52, 108, 108));
 
 		dibujarObstaculos(g);
-		dibujarBomber(g);
 		dibujarBomba(g);
+		dibujarBomber(g);
+		
 	}
 
 	private void dibujarObstaculos(Graphics g) {
@@ -67,14 +68,14 @@ public class JPanelGrafico extends JPanel {
 
 	private void dibujarBomber(Graphics g) {
 		g.drawImage(bomberIcon.getImage(), (int) Math.round(bomber.getPosicionX() * BLOCK_SIZE),
-				(int) Math.ceil(bomber.getPosicionY() * BLOCK_SIZE), BLOCK_SIZE, BLOCK_SIZE, null);
+				(int) Math.round(bomber.getPosicionY() * BLOCK_SIZE), BLOCK_SIZE, BLOCK_SIZE, null);
 	}
 
 	private void dibujarBomba(Graphics g) {
 		if (bomba != null)
 			g.drawImage(bombaIcon.getImage(),
-					(int) (bomba.getPosicionX() * BLOCK_SIZE + bomberIcon.getIconWidth() - bombaIcon.getIconWidth()),
-					(int) (bomba.getPosicionY() * BLOCK_SIZE + bomberIcon.getIconHeight() - bombaIcon.getIconHeight()),
+					(int) Math.round(bomba.getPosicionX() * BLOCK_SIZE),
+					(int) Math.ceil(bomba.getPosicionY() * BLOCK_SIZE),
 					BLOCK_SIZE, BLOCK_SIZE, null);
 	}
 

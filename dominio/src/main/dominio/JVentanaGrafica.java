@@ -61,7 +61,7 @@ public class JVentanaGrafica extends JFrame {
 			double posX = nuevoBomber.getPosicionX() - moverse;
 			double posY = nuevoBomber.getPosicionY();
 
-			if (!colisionador.verificarColision( (int) Math.floor(posX), (int) Math.round(posY))) {
+			if (!colisionador.verificarColision( (int) Math.floor(posX), (int) Math.round(posY + 0.45))) {
 				nuevoBomber.moverse(-moverse, 0);
 			}
 			contentPane.setBomberIcon(2, posX);
@@ -71,7 +71,7 @@ public class JVentanaGrafica extends JFrame {
 			double posX = nuevoBomber.getPosicionX() + moverse;
 			double posY = nuevoBomber.getPosicionY();
 
-			if (!colisionador.verificarColision((int) Math.ceil(posX), (int) Math.round(posY))) {
+			if (!colisionador.verificarColision((int) Math.ceil(posX), (int) Math.round(posY + 0.45))) {
 				nuevoBomber.moverse(moverse, 0);
 			}
 			contentPane.setBomberIcon(3, posX);
