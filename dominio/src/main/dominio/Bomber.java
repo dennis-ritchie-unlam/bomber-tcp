@@ -3,10 +3,10 @@ package main.dominio;
 public class Bomber implements Entidad{
     private boolean estaVivo;
     private int bombasDisponibles;
-    private double posicionX;
-    private double posicionY;
+    private int posicionX;
+    private int posicionY;
 
-    public Bomber(double posX, double posY) {
+    public Bomber(int posX, int posY) {
         this.posicionX = posX;
         this.posicionY = posY;
         this.estaVivo = true;
@@ -16,7 +16,7 @@ public class Bomber implements Entidad{
     public Bomba ponerBomba() {
         if (bombasDisponibles != 0) {
             this.bombasDisponibles--;
-            return new Bomba(this.getPosicionX(), this.getPosicionY());
+            return new Bomba(this.posicionX,this.posicionY);
         }
         return null;
     }
@@ -38,26 +38,26 @@ public class Bomber implements Entidad{
     }
     
     @Override
-    public double getPosicionX() {
+    public int getPosicionX() {
         return posicionX;
     }
 
     @Override
-    public void setPosicionX(double posicionX) {
+    public void setPosicionX(int posicionX) {
         this.posicionX = posicionX;
     }
 
     @Override
-    public double getPosicionY() {
+    public int getPosicionY() {
         return posicionY;
     }
 
     @Override
-    public void setPosicionY(double posicionY) {
+    public void setPosicionY(int posicionY) {
         this.posicionY = posicionY;
     }
     
-    public void moverse(double despX, double despY) {
+    public void moverse(int despX, int despY) {
         setPosicionX(posicionX + despX);
         setPosicionY(posicionY + despY);
     }

@@ -2,7 +2,6 @@ package main.dominio;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -31,7 +30,7 @@ public class JPanelGrafico extends JPanel {
 			for (int j = 0; j < 5; j++)
 				matrixBomberIcons[i][j] = new ImageIcon("./Images/Bombermans/Player 1/" + i + "" + (j + 1) + ".gif");
 
-		bomber = new Bomber(1, 1);
+		bomber = new Bomber(BLOCK_SIZE,BLOCK_SIZE);
 
 		mapa = new Mapa();
 		mapa.añadirBomber(bomber);
@@ -42,8 +41,8 @@ public class JPanelGrafico extends JPanel {
 		setBackground(new Color(52, 108, 108));
 
 		dibujarObstaculos(g);
-		dibujarBomba(g);
 		dibujarBomber(g);
+		dibujarBomba(g);
 		
 	}
 
@@ -54,8 +53,8 @@ public class JPanelGrafico extends JPanel {
 			for (int j = 0; j < Mapa.ANCHO; j++) {
 				if (mapa.entidades[i][j] != null && mapa.entidades[i][j] instanceof Obstaculo) {
 					Obstaculo obstaculito = (Obstaculo) mapa.entidades[i][j];
-					posX = ((int) Math.round(obstaculito.getPosicionX() * BLOCK_SIZE));
-					posY = ((int) Math.round(obstaculito.getPosicionY() * BLOCK_SIZE));
+					posX = (obstaculito.getPosicionX() * BLOCK_SIZE);
+					posY = (obstaculito.getPosicionY() * BLOCK_SIZE);
 					if (!obstaculito.isDestructible()) {
 						g.drawImage(obstaculoIcon.getImage(), posX, posY, BLOCK_SIZE, BLOCK_SIZE, null);
 					} else {
@@ -66,18 +65,18 @@ public class JPanelGrafico extends JPanel {
 		}
 	}
 
-	private void dibujarBomber(Graphics g) {
-		g.drawImage(bomberIcon.getImage(), (int) Math.round(bomber.getPosicionX() * BLOCK_SIZE),
-				(int) Math.round(bomber.getPosicionY() * BLOCK_SIZE), BLOCK_SIZE, BLOCK_SIZE, null);
-	}
+    private void dibujarBomber(Graphics g) {
+        if (bomber.EstaVivo())
+            g.drawImage(bomberIcon.getImage(), bomber.getPosicionX(), bomber.getPosicionY(), BLOCK_SIZE, BLOCK_SIZE,
+                    null);
+    }
 
-	private void dibujarBomba(Graphics g) {
-		if (bomba != null)
-			g.drawImage(bombaIcon.getImage(),
-					(int) Math.round(bomba.getPosicionX() * BLOCK_SIZE),
-					(int) Math.ceil(bomba.getPosicionY() * BLOCK_SIZE),
-					BLOCK_SIZE, BLOCK_SIZE, null);
-	}
+    private void dibujarBomba(Graphics g) {
+        if (bomba != null) {
+            g.drawImage(bombaIcon.getImage(), bomba.getPosicionX(), bomba.getPosicionY(),
+                    BLOCK_SIZE, BLOCK_SIZE, null);
+        }
+    }
 
 	public void setBomberIcon(int i, double j) {
 		int m = (int) j;
@@ -95,10 +94,15 @@ public class JPanelGrafico extends JPanel {
 	public void setBomber(Bomber bomber) {
 		this.bomber = bomber;
 	}
-
+	
+	public Bomba getBomba() {
+        return bomba;
+    }
+	
 	public void setBomba(Bomba bomba) {
 		this.bomba = bomba;
-		this.mapa.añadirBomba(bomba);
+		if(bomba != null)
+		    this.mapa.añadirBomba(bomba);
 	}
 
 }

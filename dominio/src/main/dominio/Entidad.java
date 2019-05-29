@@ -2,13 +2,13 @@ package main.dominio;
 
 public interface Entidad {
 
-	double getPosicionX();
+	int getPosicionX();
 
-	void setPosicionX(double posicionX);
+	void setPosicionX(int posicionX);
 
-	double getPosicionY();
+	int getPosicionY();
 
-	void setPosicionY(double posicionY);
+	void setPosicionY(int posicionY);
 	
 	void explotar();
 

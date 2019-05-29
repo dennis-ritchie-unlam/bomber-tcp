@@ -8,9 +8,9 @@ public class Bomba implements Entidad {
     private int posicionX;
     private int posicionY;
 
-    public Bomba(double posX, double posY) {
-    	posicionX = (int)Math.round(posX);
-    	posicionY = (int)Math.round(posY);
+    public Bomba(int posX, int posY) {
+    	posicionX = posX;
+    	posicionY = posY;
         this.tiempoExplosion = 2;
         this.duracionExplosion = 1;
         this.rango = 1;
@@ -50,23 +50,23 @@ public class Bomba implements Entidad {
     }
 
 	@Override
-	public double getPosicionX() {
+	public int getPosicionX() {
 		return posicionX;
 	}
 
 	@Override
-	public void setPosicionX(double posicionX) {
-		this.posicionX = (int)Math.round(posicionX);		
+	public void setPosicionX(int posicionX) {
+		this.posicionX = posicionX;		
 	}
 
 	@Override
-	public double getPosicionY() {
+	public int getPosicionY() {
 		return posicionY;
 	}
 
 	@Override
-	public void setPosicionY(double posicionY) {
-		this.posicionY = (int)Math.round(posicionY);		
+	public void setPosicionY(int posicionY) {
+		this.posicionY = posicionY;		
 	}
 
 }

@@ -16,23 +16,23 @@ public class Obstaculo implements Entidad {
     }
 
 	@Override
-	public double getPosicionX() {
+	public int getPosicionX() {
 		return posicionX;
 	}
 
 	@Override
-	public void setPosicionX(double posicionX) {
-		this.posicionX = (int) posicionX;
+	public void setPosicionX(int posicionX) {
+		this.posicionX = posicionX;
 	}
 
 	@Override
-	public double getPosicionY() {
+	public int getPosicionY() {
 		return posicionY;
 	}
 
 	@Override
-	public void setPosicionY(double posicionY) {
-		this.posicionY = (int) posicionY;	
+	public void setPosicionY(int posicionY) {
+		this.posicionY = posicionY;	
 	}
 
 	@Override
