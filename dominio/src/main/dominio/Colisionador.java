@@ -8,8 +8,6 @@ public class Colisionador {
 	}
 	
 	public boolean verificarColision(int posX, int posY) {
-		System.out.println("Posición x real: " + posX); 
-		System.out.println("Posición y real: " + posY);
 		if(this.mapa.hayAlgo(posX, posY))
 			return true;
 		return false;

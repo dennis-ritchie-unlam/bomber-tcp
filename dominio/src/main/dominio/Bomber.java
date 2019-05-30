@@ -14,7 +14,7 @@ public class Bomber implements Entidad{
     }
 
     public Bomba ponerBomba() {
-        if (bombasDisponibles != 0) {
+        if (bombasDisponibles > 0) {
             this.bombasDisponibles--;
             return new Bomba(this.posicionX,this.posicionY);
         }

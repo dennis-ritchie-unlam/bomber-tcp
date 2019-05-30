@@ -80,21 +80,22 @@ public class JVentanaGrafica extends JFrame {
             break;
         case KeyEvent.VK_SPACE:
             Bomba bombita = nuevoBomber.ponerBomba();
-            contentPane.setBomba(bombita);
-            repaint();
-            timearBomba(bombita.getTiempoExplosion() * 1000);
-            nuevoBomber.setBombasDisponibles(1);
+            if(bombita != null) {
+            	contentPane.setBomba(bombita);
+                timearBomba(bombita.getTiempoExplosion() * 1000, nuevoBomber);
+            }
             break;
         }
-        repaint();
     }
 	
-	private void timearBomba(int tiempoMili) {
-	    Timer timer = new Timer (tiempoMili,new ActionListener() {
+	private void timearBomba(int tiempoMili, Bomber bomber) {
+	    Timer timer = new Timer(tiempoMili,new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
                 contentPane.getMapa().explotarBomba(contentPane.getBomba());
+                contentPane.setBomba(null);
+                bomber.setBombasDisponibles(bomber.getBombasDisponibles() + 1);
             }
         });
 	    

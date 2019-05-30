@@ -82,6 +82,8 @@ public class Mapa {
             eliminarObstaculo(bomb.getPosicionX(), bomb.getPosicionY() - bomb.getRango() * 32);
             eliminarObstaculo(bomb.getPosicionX(), bomb.getPosicionY() + bomb.getRango() * 32);
         }
+        
+        
 
         eliminarBomba(bomb);
     }
