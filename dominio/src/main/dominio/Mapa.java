@@ -62,14 +62,10 @@ public class Mapa {
         if (bomb == null)
             return;
         for (Bomber bomber : bombers) {
-            if(bomb.getPosicionX() + bomb.getRango() * 32 == bomber.getPosicionX() && bomb.getPosicionY() == bomber.getPosicionY())
-                bomber.explotar();
-            else if(bomb.getPosicionX() - bomb.getRango() * 32 == bomber.getPosicionX() && bomb.getPosicionY() == bomber.getPosicionY())
+            if(Math.abs(bomber.getPosicionX() - bomb.getPosicionX()) <= 32 && bomb.getPosicionY() == bomber.getPosicionY())
                 bomber.explotar();
             
-            if (bomb.getPosicionY() + bomb.getRango() * 32 == bomber.getPosicionY() && bomb.getPosicionX() == bomber.getPosicionX())
-                bomber.explotar();
-            else if (bomb.getPosicionY() - bomb.getRango() * 32 == bomber.getPosicionY() && bomb.getPosicionX() == bomber.getPosicionX())
+            if (Math.abs(bomber.getPosicionY() - bomb.getPosicionY()) <= 32 && bomb.getPosicionX() == bomber.getPosicionX())
                 bomber.explotar();
             
             if (bomb.getPosicionY() == bomber.getPosicionY() && bomb.getPosicionX() == bomber.getPosicionX())
@@ -84,8 +80,9 @@ public class Mapa {
         }
         
         
-
         eliminarBomba(bomb);
+        bomb.setExploto(true);
+        
     }
 
     public boolean hayAlgo(int posX, int posY) {

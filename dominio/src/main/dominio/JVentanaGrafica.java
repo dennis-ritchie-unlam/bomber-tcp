@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+
 public class JVentanaGrafica extends JFrame {
 
 	private JPanelGrafico contentPane;
@@ -37,24 +38,35 @@ public class JVentanaGrafica extends JFrame {
     public void run(KeyEvent evento) {
         Bomber nuevoBomber = contentPane.getBomber();
 		if (nuevoBomber.EstaVivo()) {
-			int cantPosMover = 32;
+			int cantPosMover = 8;
 			int posX = nuevoBomber.getPosicionX();
 			int posY = nuevoBomber.getPosicionY();
 
 			switch (evento.getKeyCode()) {
 			case KeyEvent.VK_DOWN:
-				posY = (nuevoBomber.getPosicionY() + cantPosMover) / contentPane.BLOCK_SIZE;
-
-				if (!colisionador.verificarColision(posX / 32, posY)) {
-					nuevoBomber.moverse(0, cantPosMover);
-				}
+				posY = (nuevoBomber.getPosicionY() + cantPosMover * 4) / contentPane.BLOCK_SIZE;
+				
+				if(posX % contentPane.BLOCK_SIZE == 0)
+				    posX/=contentPane.BLOCK_SIZE;
+				else
+				    posX = (nuevoBomber.getPosicionY() + cantPosMover * 4) / contentPane.BLOCK_SIZE;
+				
+				if (!colisionador.verificarColision(posX, posY))
+				    nuevoBomber.moverse(0, cantPosMover);
+				
 				contentPane.setBomberIcon(0, posY);
 				contentPane.setBomber(nuevoBomber);
 				break;
 			case KeyEvent.VK_UP:
 				posY = (nuevoBomber.getPosicionY() - cantPosMover) / contentPane.BLOCK_SIZE;
+				
+				if(posX % contentPane.BLOCK_SIZE == 0)
+                    posX/=contentPane.BLOCK_SIZE;
+                else
+                    posX = (nuevoBomber.getPosicionY() - cantPosMover) / contentPane.BLOCK_SIZE;
+				
 
-				if (!colisionador.verificarColision(posX / 32, posY)) {
+				if (!colisionador.verificarColision(posX, posY)) {
 					nuevoBomber.moverse(0, -cantPosMover);
 				}
 				contentPane.setBomberIcon(1, posY);
@@ -62,19 +74,29 @@ public class JVentanaGrafica extends JFrame {
 				break;
 			case KeyEvent.VK_LEFT:
 				posX = (nuevoBomber.getPosicionX() - cantPosMover) / contentPane.BLOCK_SIZE;
-
-				if (!colisionador.verificarColision(posX, posY / 32)) {
+				
+				if(posY % contentPane.BLOCK_SIZE == 0)
+                    posY/=contentPane.BLOCK_SIZE;
+                else
+                    posY = (nuevoBomber.getPosicionX() - cantPosMover) / contentPane.BLOCK_SIZE;
+				
+				if (!colisionador.verificarColision(posX, posY))
 					nuevoBomber.moverse(-cantPosMover, 0);
-				}
+				
 				contentPane.setBomberIcon(2, posX);
 				contentPane.setBomber(nuevoBomber);
 				break;
 			case KeyEvent.VK_RIGHT:
-				posX = (nuevoBomber.getPosicionX() + cantPosMover) / contentPane.BLOCK_SIZE;
+				posX = (nuevoBomber.getPosicionX() + cantPosMover * 4) / contentPane.BLOCK_SIZE;
+				
+				if(posY % contentPane.BLOCK_SIZE == 0)
+                    posY/=contentPane.BLOCK_SIZE;
+                else
+                    posY = (nuevoBomber.getPosicionX() + cantPosMover * 4) / contentPane.BLOCK_SIZE;
 
-				if (!colisionador.verificarColision(posX, posY / 32)) {
+				if (!colisionador.verificarColision(posX, posY))
 					nuevoBomber.moverse(cantPosMover, 0);
-				}
+				
 				contentPane.setBomberIcon(3, posX);
 				contentPane.setBomber(nuevoBomber);
 				break;
@@ -95,14 +117,17 @@ public class JVentanaGrafica extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 contentPane.getMapa().explotarBomba(contentPane.getBomba());
-                contentPane.setBomba(null);
+                contentPane.setDibujarFuego(true);
                 bomber.setBombasDisponibles(bomber.getBombasDisponibles() + 1);
             }
         });
 	    
 	    timer.start();
+	    timer.setRepeats(false);
 	}
 	
+	
+
 	public static void main(String[] args) {
 		JVentanaGrafica ventana = new JVentanaGrafica();
 		ventana.setVisible(true);
@@ -112,7 +137,7 @@ public class JVentanaGrafica extends JFrame {
 			public void run() {
 				while (true) {
 					try {
-						Thread.sleep(10);
+						Thread.sleep(30);
 					} catch (InterruptedException e) {
 						Logger.getLogger("Error");
 					}
