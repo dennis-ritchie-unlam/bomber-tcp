@@ -19,7 +19,6 @@ public class JVentanaGrafica extends JFrame {
 
 	public JVentanaGrafica() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
 		contentPane = new JPanelGrafico();
 		setContentPane(contentPane);
 		setBounds(0, 0, Mapa.ANCHO * contentPane.BLOCK_SIZE + contentPane.BLOCK_SIZE / 2,
