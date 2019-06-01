@@ -24,6 +24,9 @@ public class JVentanaGrafica extends JFrame {
 		setBounds(0, 0, Mapa.ANCHO * contentPane.BLOCK_SIZE + contentPane.BLOCK_SIZE / 2,
 				Mapa.ALTO * contentPane.BLOCK_SIZE + contentPane.BLOCK_SIZE * 5 / 4);
 		setLocationRelativeTo(null);
+		setResizable(false);
+		setTitle("Bomberman TCP");
+		setSize(615,635);
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {

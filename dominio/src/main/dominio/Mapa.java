@@ -6,8 +6,8 @@ import java.util.Random;
 public class Mapa {
 	Entidad[][] entidades;
 	ArrayList<Bomber> bombers;
-	static final int ALTO = 25;
-	static final int ANCHO = 25;
+	static final int ALTO = 19;
+	static final int ANCHO = 19;
 
 	public Mapa() {
 		entidades = new Entidad[ALTO][ANCHO];
@@ -29,7 +29,7 @@ public class Mapa {
 			for (int j = 1; j < (ANCHO - 1); j++) {
 				if (randomGenerator.nextInt(10) >= 7 && !(i % 2 == 0 && j % 2 == 0)  && !(i < 3 && j < 3)
 						&& !(i > ALTO - 4 && j > ANCHO - 4) && !(i > ALTO - 4 && j < 3) && !(i < 3 && j > ANCHO - 4)
- )
+				)
 					entidades[i][j] = new Obstaculo(i, j, true);
 			}
 		}
