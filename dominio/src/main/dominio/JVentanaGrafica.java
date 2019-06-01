@@ -26,7 +26,7 @@ public class JVentanaGrafica extends JFrame {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setTitle("Bomberman TCP");
-		setSize(615,635);
+		setSize(676,700);
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {

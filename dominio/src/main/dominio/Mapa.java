@@ -6,8 +6,8 @@ import java.util.Random;
 public class Mapa {
 	Entidad[][] entidades;
 	ArrayList<Bomber> bombers;
-	static final int ALTO = 19;
-	static final int ANCHO = 19;
+	static final int ALTO = 21;
+	static final int ANCHO = 21;
 
 	public Mapa() {
 		entidades = new Entidad[ALTO][ANCHO];
