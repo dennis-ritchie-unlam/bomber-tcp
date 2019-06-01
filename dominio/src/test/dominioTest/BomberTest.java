@@ -14,7 +14,7 @@ public class BomberTest {
 	
 	@Before
 	public void setUp() {
-		bomber = new Bomber(1.49, 1.49);
+		bomber = new Bomber(1, 1);
 	}
 	
 	@Test
@@ -43,8 +43,8 @@ public class BomberTest {
 	
 	@Test
 	public void posicionBombaRedondeoParaArriba() {
-		bomber.setPosicionX(1.5);
-		bomber.setPosicionY(1.5);
+		bomber.setPosicionX(2);
+		bomber.setPosicionY(2);
 		Bomba bombita = bomber.ponerBomba();
 		assertEquals(2, bombita.getPosicionX());
 		assertEquals(2, bombita.getPosicionY());
@@ -52,13 +52,13 @@ public class BomberTest {
 	
 	@Test
 	public void matarBomber() {
-		bomber.morir();
+		bomber.explotar();
 		assertFalse(bomber.EstaVivo());
 	}
 	
 	@Test
 	public void revivirBomber() {
-		bomber.morir();
+		bomber.explotar();
 		assertFalse(bomber.EstaVivo());
 		bomber.revivir();
 		assertTrue(bomber.EstaVivo());

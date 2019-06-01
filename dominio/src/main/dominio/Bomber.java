@@ -1,59 +1,69 @@
 package main.dominio;
 
-public class Bomber {	
-	private boolean estaVivo;
-	private int bombasDisponibles;
-	private double posicionX;
-	private double posicionY;
+public class Bomber implements Entidad{
+    private boolean estaVivo;
+    private int bombasDisponibles;
+    private int posicionX;
+    private int posicionY;
 
-	public Bomber(double posX, double posY) {
-		this.posicionX = posX;
-		this.posicionY = posY;
-		this.estaVivo = true;
-		this.bombasDisponibles = 1;
-	}
+    public Bomber(int posX, int posY) {
+        this.posicionX = posX;
+        this.posicionY = posY;
+        this.estaVivo = true;
+        this.bombasDisponibles = 1;
+    }
 
-	public Bomba ponerBomba() {
-		if(bombasDisponibles != 0) {
-			this.bombasDisponibles--;
-			return new Bomba((int) Math.round(this.getPosicionX()),(int) Math.round(this.getPosicionY()));
-		}
-		return null;
-	}
+    public Bomba ponerBomba() {
+        if (bombasDisponibles > 0) {
+            this.bombasDisponibles--;
+            return new Bomba(this.posicionX,this.posicionY);
+        }
+        return null;
+    }
 
-	public void morir() {
+    public boolean EstaVivo() {
+        return estaVivo;
+    }
+
+    public void revivir() {
+        this.estaVivo = true;
+    }
+
+    public int getBombasDisponibles() {
+        return bombasDisponibles;
+    }
+
+    public void setBombasDisponibles(int bombasDisponibles) {
+        this.bombasDisponibles = bombasDisponibles;
+    }
+    
+    @Override
+    public int getPosicionX() {
+        return posicionX;
+    }
+
+    @Override
+    public void setPosicionX(int posicionX) {
+        this.posicionX = posicionX;
+    }
+
+    @Override
+    public int getPosicionY() {
+        return posicionY;
+    }
+
+    @Override
+    public void setPosicionY(int posicionY) {
+        this.posicionY = posicionY;
+    }
+    
+    public void moverse(int despX, int despY) {
+        setPosicionX(posicionX + despX);
+        setPosicionY(posicionY + despY);
+    }
+
+	@Override
+	public void explotar() {
 		this.estaVivo = false;
-	}
-
-	public boolean EstaVivo() {
-		return estaVivo;
-	}
-
-	public void revivir() {
-		this.estaVivo = true;
-	}
-
-	public int getBombasDisponibles() {
-		return bombasDisponibles;
-	}
-
-	public void setBombasDisponibles(int bombasDisponibles) {
-		this.bombasDisponibles = bombasDisponibles;
-	}
-
-	public double getPosicionX() {
-		return posicionX;
-	}
-
-	public void setPosicionX(double posicionX) {
-		this.posicionX = posicionX;
-	}
-
-	public double getPosicionY() {
-		return posicionY;
-	}
-
-	public void setPosicionY(double posicionY) {
-		this.posicionY = posicionY;
 	}
 }

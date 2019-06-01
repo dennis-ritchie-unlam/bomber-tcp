@@ -1,12 +1,13 @@
 package main.dominio;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Mapa {
-	private Entidad[][] entidades;
-	private ArrayList<Bomber> bombers;
-	private static final int ALTO = 13;
-	private static final int ANCHO = 15;
+	Entidad[][] entidades;
+	ArrayList<Bomber> bombers;
+	static final int ALTO = 21;
+	static final int ANCHO = 21;
 
 	public Mapa() {
 		entidades = new Entidad[ALTO][ANCHO];
@@ -23,65 +24,71 @@ public class Mapa {
 	}
 
 	private void generarObstaculosDestructibles() {
+		Random randomGenerator = new Random();
 		for (int i = 1; i < (ALTO - 1); i++) {
-			entidades[i][5] = new Obstaculo(i, 5, true);
-			entidades[i][9] = new Obstaculo(i, 9, true);
+			for (int j = 1; j < (ANCHO - 1); j++) {
+				if (randomGenerator.nextInt(10) >= 7 && !(i % 2 == 0 && j % 2 == 0)  && !(i < 3 && j < 3)
+						&& !(i > ALTO - 4 && j > ANCHO - 4) && !(i > ALTO - 4 && j < 3) && !(i < 3 && j > ANCHO - 4)
+				)
+					entidades[i][j] = new Obstaculo(i, j, true);
+			}
 		}
-		
 	}
-
-	public ArrayList<Bomber> getBombers() {
-		return bombers;
-	}
-
+	
 	public void eliminarObstaculo(int x, int y) {
+		x /= 32;
+		y /= 32;
 		if (entidades[y][x] instanceof Obstaculo && ((Obstaculo) entidades[y][x]).isDestructible())
 			entidades[y][x] = null;
 	}
 
-	public Entidad[][] getEntidades() {
-		return entidades;
-	}
-
 	public void añadirBomba(Bomba bombita) {
-		entidades[bombita.getPosicionY()][bombita.getPosicionX()] = bombita;
+		entidades[bombita.getPosicionY() / 32][bombita.getPosicionX() / 32] = bombita;
 	}
 
 	public void eliminarBomba(Bomba bombita) {
-		entidades[bombita.getPosicionY()][bombita.getPosicionX()] = null;
+		entidades[bombita.getPosicionY() / 32][bombita.getPosicionX() / 32] = null;
 	}
 
 	public void añadirBomber(Bomber personaje) {
 		bombers.add(personaje);
 	}
-	
-	public void moverBomber(Bomber personaje, double despX, double despY) {
-		double personajeX = personaje.getPosicionX();
-		double personajeY = personaje.getPosicionY();
-		
-		if( entidades[(int)(personajeY + despY)][(int)(personajeX + despX)] == null ) {
-			personaje.setPosicionX(personajeX+despX);
-			personaje.setPosicionY(personajeY+despY);
+
+	public void explotarBomba(Bomba bomb) {
+		if (bomb == null)
+			return;
+		for (Bomber bomber : bombers) {
+			if (Math.abs(bomber.getPosicionX() - bomb.getPosicionX()) <= 32
+					&& bomb.getPosicionY() == bomber.getPosicionY())
+				bomber.explotar();
+
+			if (Math.abs(bomber.getPosicionY() - bomb.getPosicionY()) <= 32
+					&& bomb.getPosicionX() == bomber.getPosicionX())
+				bomber.explotar();
+
+			if (bomb.getPosicionY() == bomber.getPosicionY() && bomb.getPosicionX() == bomber.getPosicionX())
+				bomber.explotar();
 		}
 
-	}
-	
-	public void explotarBomba(Bomba bomb) {
-		for(Bomber bomber: bombers) {
-			if((Math.abs(bomber.getPosicionX()-bomb.getPosicionX()) <= bomb.getRango()) && (Math.abs(bomber.getPosicionY()-bomb.getPosicionY()) <= bomb.getRango())) {
-				bomber.morir();
-			}
+		for (int i = 1; i <= bomb.getRango(); i++) {
+			eliminarObstaculo(bomb.getPosicionX() - bomb.getRango() * 32, bomb.getPosicionY());
+			eliminarObstaculo(bomb.getPosicionX() + bomb.getRango() * 32, bomb.getPosicionY());
+			eliminarObstaculo(bomb.getPosicionX(), bomb.getPosicionY() - bomb.getRango() * 32);
+			eliminarObstaculo(bomb.getPosicionX(), bomb.getPosicionY() + bomb.getRango() * 32);
 		}
-		
- 		for(int i = 1; i<= bomb.getRango(); i++) {
-			eliminarObstaculo(bomb.getPosicionX() - bomb.getRango(), bomb.getPosicionY());
-			eliminarObstaculo(bomb.getPosicionX() + bomb.getRango(), bomb.getPosicionY());
-			eliminarObstaculo(bomb.getPosicionX(), bomb.getPosicionY() - bomb.getRango()); 
-			eliminarObstaculo(bomb.getPosicionX(), bomb.getPosicionY() + bomb.getRango());	
- 		}
-		
+
 		eliminarBomba(bomb);
+		bomb.setExploto(true);
+
 	}
-	
-	
+
+	public boolean hayAlgo(int posX, int posY) {
+		if (posX < 0 || posY < 0 || (ANCHO < posX) || (ALTO < posY))
+			return true;
+
+		if (entidades[posY][posX] != null)
+			return true;
+
+		return false;
+	}
 }
