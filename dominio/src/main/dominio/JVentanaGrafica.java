@@ -104,9 +104,7 @@ public class JVentanaGrafica extends JFrame {
 				break;
 			case KeyEvent.VK_SPACE:
 				Bomba bombita = nuevoBomber.ponerBomba();
-				if(bombita == null)
-					timearBomba(0, nuevoBomber);
-				else {
+				if(bombita != null) {
 					contentPane.setBomba(bombita);
 					timearBomba(bombita.getTiempoExplosion() * 1000, nuevoBomber);
 				}
