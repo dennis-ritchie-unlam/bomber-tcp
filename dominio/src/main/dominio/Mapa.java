@@ -38,6 +38,8 @@ public class Mapa {
 	public void eliminarObstaculo(int x, int y) {
 		x /= 32;
 		y /= 32;
+		if(entidades[y][x] instanceof Bomba) 
+			entidades[y][x] = null;
 		if (entidades[y][x] instanceof Obstaculo && ((Obstaculo) entidades[y][x]).isDestructible())
 			entidades[y][x] = null;
 	}

@@ -89,7 +89,7 @@ public class MapaTest {
 	
 	@Test
 	public void explotarRomperObstaculoConBomba() {
-		mapita.añadirBomba(new Bomba(32 * 4,32 * 3));
+		mapita.añadirBomba(new Bomba(32 * 4, 32 * 3));
 		Entidad[][] entidades = mapita.getEntidades();
 		Assert.assertTrue(entidades[3][4] instanceof Bomba);
 		Bomba bombita = (Bomba) entidades[3][4];
@@ -97,6 +97,19 @@ public class MapaTest {
 		mapita.explotarBomba(bombita);
 		assertEquals(null, entidades[3][5]);
 	}
+	
+//	@Test
+//	public void explosionEnCadena() {
+//		mapita.añadirBomba(new Bomba(32 * 4, 32 * 3));
+//		mapita.añadirBomba(new Bomba(32 * 5, 32 * 3));
+//		Entidad[][] entidades = mapita.getEntidades();
+//		Assert.assertTrue(entidades[3][4] instanceof Bomba);
+//		Bomba bombita = (Bomba) entidades[3][4];
+//		bombita.explotar();
+//		mapita.explotarBomba(bombita);
+//		assertEquals(null, entidades[3][5]);
+//	}
+	
 	
 //	@Test
 //	public void eliminarObstaculo() {

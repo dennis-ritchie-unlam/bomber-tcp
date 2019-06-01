@@ -3,8 +3,11 @@ package main.dominio;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import javax.sql.rowset.spi.SyncResolver;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
+import com.sun.swing.internal.plaf.synth.resources.synth;
 
 public class JPanelGrafico extends JPanel {
 
@@ -46,7 +49,7 @@ public class JPanelGrafico extends JPanel {
         dibujarFuego(g);
     }
 
-    private void dibujarObstaculos(Graphics g) {
+    private synchronized void dibujarObstaculos(Graphics g) {
         int posX;
         int posY;
         for (int i = 0; i < Mapa.ALTO; i++) {
@@ -65,13 +68,13 @@ public class JPanelGrafico extends JPanel {
         }
     }
 
-    private void dibujarBomber(Graphics g) {
+    private synchronized void dibujarBomber(Graphics g) {
         if (bomber.EstaVivo())
             g.drawImage(bomberIcon.getImage(), bomber.getPosicionX(), bomber.getPosicionY(), BLOCK_SIZE, BLOCK_SIZE,
                     null);
     }
 
-    private void dibujarBomba(Graphics g) {
+    private synchronized void dibujarBomba(Graphics g) {
         if (bomba != null) {
             int posX;
             if (bomba.getPosicionX() % BLOCK_SIZE <= BLOCK_SIZE / 2)
@@ -82,8 +85,8 @@ public class JPanelGrafico extends JPanel {
         }
     }
 
-    private void dibujarFuego(Graphics g) {
-        if (dibujarFuego) {
+    private synchronized void dibujarFuego(Graphics g) {
+        if (dibujarFuego && bomba != null) {
             g.drawImage(fuegoIcon.getImage(), bomba.getPosicionX(), bomba.getPosicionY(), BLOCK_SIZE, BLOCK_SIZE, null);
 
             if (!mapa.hayAlgo(bomba.getPosicionX() / BLOCK_SIZE + 1, bomba.getPosicionY() / BLOCK_SIZE))
