@@ -76,7 +76,7 @@ public class MapaTest {
 	@Test
 	public void explotarMatarBomberConBomba() {
 		mapita.añadirBomba(new Bomba(32*2,32*2));
-		mapita.añadirBomber(new Bomber(32*1,32*1));		
+		mapita.añadirBomber(new Bomber(32*2,32*3));		
 		ArrayList<Bomber> bombers;
 		bombers = mapita.getBombers();
 		Entidad[][] entidades = mapita.getEntidades();
