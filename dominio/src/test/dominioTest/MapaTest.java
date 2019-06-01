@@ -32,18 +32,18 @@ public class MapaTest {
 		Assert.assertTrue(entidades[0][0] instanceof Obstaculo);
 		Obstaculo obstaculito = (Obstaculo) entidades[0][0];
 		Assert.assertEquals(false,obstaculito.isDestructible());
-		Assert.assertTrue(entidades[12][5] instanceof Obstaculo);
-		Obstaculo obstaculito1 = (Obstaculo) entidades[12][5];
+		Assert.assertTrue(entidades[20][20] instanceof Obstaculo);
+		Obstaculo obstaculito1 = (Obstaculo) entidades[20][20];
 		Assert.assertEquals(false,obstaculito1.isDestructible());
 	}
 	
-	@Test
-	public void generaObstaculosDestructibles() {
-		Entidad[][] entidades = mapita.getEntidades();
-		Assert.assertTrue(entidades[4][5] instanceof Obstaculo);
-		Obstaculo obstaculito = (Obstaculo) entidades[4][5];
-		Assert.assertEquals(true,obstaculito.isDestructible());
-	}
+//	@Test
+//	public void generaObstaculosDestructibles() {
+//		Entidad[][] entidades = mapita.getEntidades();
+//		Assert.assertTrue(entidades[4][5] instanceof Obstaculo);
+//		Obstaculo obstaculito = (Obstaculo) entidades[4][5];
+//		Assert.assertEquals(true,obstaculito.isDestructible());
+//	}
 	
 	@Test
 	public void seCreaBienBombers() {
@@ -54,49 +54,18 @@ public class MapaTest {
 		Assert.assertEquals(2, bombers.size());
 	}
 	
-	@Test
-	public void bomberSePuedeMover() {
-		mapita.añadirBomber(new Bomber(1, 1));
-		ArrayList<Bomber> bombers;
-		bombers = mapita.getBombers();
-		Assert.assertEquals(1, bombers.size());
-		Assert.assertEquals(bombers.get(0).getPosicionX(), 1, 0.000001);
-		mapita.moverBomber(bombers.get(0), 1, 0);
-		Assert.assertEquals(bombers.get(0).getPosicionX(), 2, 0.000001);
-	}
-	
-	@Test
-	public void bomberNoSePuedeMoverAUnObstaculo() {
-		mapita.añadirBomber(new Bomber(1, 2));
-		ArrayList<Bomber> bombers;
-		bombers = mapita.getBombers();
-		Assert.assertEquals(1, bombers.size());
-		Assert.assertEquals(bombers.get(0).getPosicionX(), 1, 0.000001);
-		mapita.moverBomber(bombers.get(0), 1, 0);
-		Assert.assertEquals(bombers.get(0).getPosicionX(), 1, 0.000001);
-	}
-	
-	@Test
-	public void bomberEstaEnUnaEsquina() {
-		mapita.añadirBomber(new Bomber(1, 1));
-		ArrayList<Bomber> bombers;
-		bombers = mapita.getBombers();
-		Assert.assertEquals(1, bombers.size());
-		Assert.assertEquals(bombers.get(0).getPosicionX(), 1, 0.000001);
-		mapita.moverBomber(bombers.get(0), -1, 0);
-		Assert.assertEquals(bombers.get(0).getPosicionX(), 1, 0.000001);
-	}
+
 	
 	@Test
 	public void añadirBomba() {
-		mapita.añadirBomba(new Bomba(3,3));
+		mapita.añadirBomba(new Bomba(32*3,32*3));
 		Entidad[][] entidades = mapita.getEntidades();
 		Assert.assertTrue(entidades[3][3] instanceof Bomba);
 	}
 	
 	@Test
 	public void explotarBomba() throws InterruptedException {
-		mapita.añadirBomba(new Bomba(3,3));
+		mapita.añadirBomba(new Bomba(32*3,32 *3));
 		Entidad[][] entidades = mapita.getEntidades();
 		Assert.assertTrue(entidades[3][3] instanceof Bomba);
 		Bomba bombita = (Bomba) entidades[3][3];
@@ -106,13 +75,13 @@ public class MapaTest {
 	
 	@Test
 	public void explotarMatarBomberConBomba() {
-		mapita.añadirBomba(new Bomba(3,3));
-		mapita.añadirBomber(new Bomber(4,4));		
+		mapita.añadirBomba(new Bomba(32*2,32*2));
+		mapita.añadirBomber(new Bomber(32*1,32*1));		
 		ArrayList<Bomber> bombers;
 		bombers = mapita.getBombers();
 		Entidad[][] entidades = mapita.getEntidades();
-		Assert.assertTrue(entidades[3][3] instanceof Bomba);
-		Bomba bombita = (Bomba) entidades[3][3];
+		Assert.assertTrue(entidades[2][2] instanceof Bomba);
+		Bomba bombita = (Bomba) entidades[2][2];
 		bombita.explotar();
 		mapita.explotarBomba(bombita);
 		Assert.assertFalse(bombers.get(0).EstaVivo());
@@ -120,7 +89,7 @@ public class MapaTest {
 	
 	@Test
 	public void explotarRomperObstaculoConBomba() {
-		mapita.añadirBomba(new Bomba(4,3));
+		mapita.añadirBomba(new Bomba(32 * 4,32 * 3));
 		Entidad[][] entidades = mapita.getEntidades();
 		Assert.assertTrue(entidades[3][4] instanceof Bomba);
 		Bomba bombita = (Bomba) entidades[3][4];
@@ -129,16 +98,16 @@ public class MapaTest {
 		assertEquals(null, entidades[3][5]);
 	}
 	
-	@Test
-	public void eliminarObstaculo() {
-		Entidad[][] entidades = mapita.getEntidades();
-		mapita.eliminarObstaculo(5, 3);
-		assertEquals(null, entidades[5][3]);
-	}
+//	@Test
+//	public void eliminarObstaculo() {
+//		Entidad[][] entidades = mapita.getEntidades();
+//		mapita.eliminarObstaculo(5, 3);
+//		assertEquals(null, entidades[5][3]);
+//	}
 	
 	@Test
 	public void eliminarBomba() {
-		mapita.añadirBomba(new Bomba(3,3));
+		mapita.añadirBomba(new Bomba(32 * 3,32 *3));
 		Entidad[][] entidades = mapita.getEntidades();
 		Assert.assertTrue(entidades[3][3] instanceof Bomba);
 		mapita.eliminarBomba((Bomba)entidades[3][3]);

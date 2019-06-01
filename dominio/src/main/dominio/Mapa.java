@@ -50,6 +50,14 @@ public class Mapa {
 		entidades[bombita.getPosicionY() / 32][bombita.getPosicionX() / 32] = null;
 	}
 
+	public Entidad[][] getEntidades() {
+		return entidades;
+	}
+
+	public ArrayList<Bomber> getBombers() {
+		return bombers;
+	}
+
 	public void añadirBomber(Bomber personaje) {
 		bombers.add(personaje);
 	}
