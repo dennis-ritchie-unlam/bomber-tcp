@@ -1,11 +1,15 @@
-package cliente;
+package mensaje;
 
 import java.io.Serializable;
 
 import javax.swing.JOptionPane;
 
+import comando.Comando;
+import comando.Nada;
+
 public class Paquete implements Serializable, Cloneable {
 
+	private static final long serialVersionUID = 1L;
 	public static String msjExito = "1";
 	public static String msjFracaso = "0";
 
@@ -70,25 +74,20 @@ public class Paquete implements Serializable, Cloneable {
 
 	public Comando getObjeto(final String nombrePaquete) {
 		try {
-			Comando c;
-			c = (Comando) Class.forName(nombrePaquete + "." + Comando.CLASSNAMES[comando]).newInstance();
-			return c;
+			return (Comando) Class.forName(nombrePaquete + "." + Comando.CLASSNAMES[comando]).newInstance();
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-			//return new Nada();
-		}
-		return null;
+			JOptionPane.showMessageDialog(null, e.getMessage());
 
+			return new Nada();
+		}
 	}
 
 	public static Comando getObjetoSet(final String nombrePaquete, final int accion) {
 		try {
-			Comando c;
-			c = (Comando) Class.forName(nombrePaquete + "." + Comando.CLASSNAMESBIS[accion]).newInstance();
-			return c;
+			return (Comando) Class.forName(nombrePaquete + "." + Comando.CLASSNAMESBIS[accion]).newInstance();
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-			//return new Nada();
+			return new Nada();
 		}
-		return null;
 	}
 
 }

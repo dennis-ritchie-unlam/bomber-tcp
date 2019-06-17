@@ -1,4 +1,4 @@
-package cliente;
+package comando;
 
 import com.google.gson.Gson;
 
@@ -16,6 +16,7 @@ public abstract class Comando {
 	public static final int MOVIMIENTO = 4;
 	public static final int REGISTRO = 5;
 	public static final int SALIR = 6;
+	public static final int NADA = 7;
 
 	protected final Gson gson = new Gson();
 	protected String cadenaLeida;
