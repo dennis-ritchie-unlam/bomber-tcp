@@ -35,15 +35,10 @@ public class Mapa {
 		}
 	}
 	
-	public void eliminarObstaculo(int x, int y) {
-		x /= 32;
-		y /= 32;
-		if(entidades[y][x] instanceof Bomba) 
-			entidades[y][x] = null;
-		if (entidades[y][x] instanceof Obstaculo && ((Obstaculo) entidades[y][x]).isDestructible())
-			entidades[y][x] = null;
+	public void setPosicionNull(int x, int y) {
+		entidades[y][x] = null;
 	}
-
+	
 	public void añadirBomba(Bomba bombita) {
 		entidades[bombita.getPosicionY() / 32][bombita.getPosicionX() / 32] = bombita;
 	}
@@ -64,30 +59,53 @@ public class Mapa {
 		bombers.add(personaje);
 	}
 
-	public void explotarBomba(Bomba bomb) {
+	public void explotarBomba(Bomba bomb, int blockSize) {
+		int x;
+		int y;
 		if (bomb == null)
 			return;
 		for (Bomber bomber : bombers) {
-			if (Math.abs(bomber.getPosicionX() - bomb.getPosicionX()) <= 32
+			if (Math.abs(bomber.getPosicionX() - bomb.getPosicionX()) <= blockSize
 					&& bomb.getPosicionY() == bomber.getPosicionY())
 				bomber.explotar();
 
-			if (Math.abs(bomber.getPosicionY() - bomb.getPosicionY()) <= 32
+			if (Math.abs(bomber.getPosicionY() - bomb.getPosicionY()) <= blockSize
 					&& bomb.getPosicionX() == bomber.getPosicionX())
 				bomber.explotar();
 
 			if (bomb.getPosicionY() == bomber.getPosicionY() && bomb.getPosicionX() == bomber.getPosicionX())
 				bomber.explotar();
 		}
-
-		for (int i = 1; i <= bomb.getRango(); i++) {
-			eliminarObstaculo(bomb.getPosicionX() - bomb.getRango() * 32, bomb.getPosicionY());
-			eliminarObstaculo(bomb.getPosicionX() + bomb.getRango() * 32, bomb.getPosicionY());
-			eliminarObstaculo(bomb.getPosicionX(), bomb.getPosicionY() - bomb.getRango() * 32);
-			eliminarObstaculo(bomb.getPosicionX(), bomb.getPosicionY() + bomb.getRango() * 32);
-		}
-
 		eliminarBomba(bomb);
+		for (int i = 1; i <= bomb.getRango(); i++) {
+			x = (bomb.getPosicionX() - bomb.getRango() * blockSize) / blockSize;
+			y = bomb.getPosicionY() / blockSize;
+			if(entidades[y][x] != null && entidades[y][x].explotar()) {
+				
+				if(!entidades[y][x].isObstaculo())
+					explotarBomba((Bomba) entidades[y][x], blockSize);
+				setPosicionNull(x, y);
+			}
+			x = (bomb.getPosicionX() + bomb.getRango() * blockSize)/blockSize;
+			if(entidades[y][x] != null && entidades[y][x].explotar()) {
+				if(!entidades[y][x].isObstaculo())
+					explotarBomba((Bomba) entidades[y][x], blockSize);
+				setPosicionNull(x, y);
+			}
+			x = bomb.getPosicionX()/blockSize;
+			y = (bomb.getPosicionY() - bomb.getRango() * blockSize)/blockSize;
+			if(entidades[y][x] != null && entidades[y][x].explotar()) {
+				if(!entidades[y][x].isObstaculo())
+					explotarBomba((Bomba) entidades[y][x], blockSize);
+				setPosicionNull(x, y);
+			}
+			y = (bomb.getPosicionY() + bomb.getRango() * blockSize)/blockSize;
+			if(entidades[y][x] != null && entidades[y][x].explotar()) {
+				if(!entidades[y][x].isObstaculo())
+					explotarBomba((Bomba) entidades[y][x], blockSize);
+				setPosicionNull(x, y);
+			}
+		}
 		bomb.setExploto(true);
 
 	}

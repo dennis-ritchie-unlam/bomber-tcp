@@ -1,7 +1,7 @@
 package main.dominio;
 
 public interface Entidad {
-
+	
 	int getPosicionX();
 
 	void setPosicionX(int posicionX);
@@ -9,7 +9,9 @@ public interface Entidad {
 	int getPosicionY();
 
 	void setPosicionY(int posicionY);
+
+	boolean explotar();
 	
-	void explotar();
+	boolean isObstaculo();
 
 }

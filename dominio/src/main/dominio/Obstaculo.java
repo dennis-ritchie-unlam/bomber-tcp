@@ -11,7 +11,11 @@ public class Obstaculo implements Entidad {
         this.destructible = destructible;
     }
 
-    public boolean isDestructible() {
+    public boolean isObstaculo() {
+		return true;
+	}
+
+	public boolean isDestructible() {
         return destructible;
     }
 
@@ -36,8 +40,9 @@ public class Obstaculo implements Entidad {
 	}
 
 	@Override
-	public void explotar() {
-		//if(isDestructible())
-			
+	public boolean explotar() {
+		if(isDestructible())
+			return true;
+		return false;
 	}
 }

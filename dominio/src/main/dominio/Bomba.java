@@ -1,53 +1,58 @@
 package main.dominio;
 
 public class Bomba implements Entidad {
-    private int tiempoExplosion;
-    private int duracionExplosion;
-    private int rango;
-    private boolean exploto;
-    private int posicionX;
-    private int posicionY;
+	private int tiempoExplosion;
+	private int duracionExplosion;
+	private int rango;
+	private boolean exploto;
+	private int posicionX;
+	private int posicionY;
 
-    public Bomba(int posX, int posY) {
-    	posicionX = posX;
-    	posicionY = posY;
-        this.tiempoExplosion = 2;
-        this.duracionExplosion = 1;
-        this.rango = 1;
-        this.setExploto(false);
-    }
+	public Bomba(int posX, int posY) {
+		posicionX = posX;
+		posicionY = posY;
+		this.tiempoExplosion = 3;
+		this.duracionExplosion = 1;
+		this.rango = 1;
+		this.setExploto(false);
+	}
 
-    public boolean isExploto() {
-        return exploto;
-    }
+	public boolean isObstaculo() {
+		return false;
+	}
 
-    public void explotar() {
-        this.setExploto(true);
-    }
+	public boolean isExploto() {
+		return exploto;
+	}
 
-    public int getTiempoExplosion() {
-        return tiempoExplosion;
-    }
+	public boolean explotar() {
+		this.setExploto(true);
+		return true;
+	}
 
-    public void setTiempoExplosion(int tiempoExplosion) {
-        this.tiempoExplosion = tiempoExplosion;
-    }
+	public int getTiempoExplosion() {
+		return tiempoExplosion;
+	}
 
-    public int getDuracionExplosion() {
-        return duracionExplosion;
-    }
+	public void setTiempoExplosion(int tiempoExplosion) {
+		this.tiempoExplosion = tiempoExplosion;
+	}
 
-    public void setDuracionExplosion(int duracionExplosion) {
-        this.duracionExplosion = duracionExplosion;
-    }
+	public int getDuracionExplosion() {
+		return duracionExplosion;
+	}
 
-    public int getRango() {
-        return rango;
-    }
+	public void setDuracionExplosion(int duracionExplosion) {
+		this.duracionExplosion = duracionExplosion;
+	}
 
-    public void setExploto(boolean exploto) {
-        this.exploto = exploto;
-    }
+	public int getRango() {
+		return rango;
+	}
+
+	public void setExploto(boolean exploto) {
+		this.exploto = exploto;
+	}
 
 	@Override
 	public int getPosicionX() {
@@ -56,7 +61,7 @@ public class Bomba implements Entidad {
 
 	@Override
 	public void setPosicionX(int posicionX) {
-		this.posicionX = posicionX;		
+		this.posicionX = posicionX;
 	}
 
 	@Override
@@ -66,7 +71,7 @@ public class Bomba implements Entidad {
 
 	@Override
 	public void setPosicionY(int posicionY) {
-		this.posicionY = posicionY;		
+		this.posicionY = posicionY;
 	}
 
 }
