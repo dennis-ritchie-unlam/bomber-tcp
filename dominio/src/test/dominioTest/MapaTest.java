@@ -83,7 +83,7 @@ public class MapaTest {
 		Assert.assertTrue(entidades[2][2] instanceof Bomba);
 		Bomba bombita = (Bomba) entidades[2][2];
 		bombita.explotar();
-		mapita.explotarBomba(bombita);
+		//mapita.explotarBomba(bombita);
 		Assert.assertFalse(bombers.get(0).EstaVivo());
 	}
 	
@@ -94,7 +94,7 @@ public class MapaTest {
 		Assert.assertTrue(entidades[3][4] instanceof Bomba);
 		Bomba bombita = (Bomba) entidades[3][4];
 		bombita.explotar();
-		mapita.explotarBomba(bombita);
+		//mapita.explotarBomba(bombita);
 		assertEquals(null, entidades[3][5]);
 	}
 	
