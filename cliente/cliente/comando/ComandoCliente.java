@@ -1,4 +1,4 @@
-package comando;
+package cliente.comando;
 
 import cliente.Cliente;
 

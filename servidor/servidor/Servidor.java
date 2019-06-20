@@ -39,7 +39,7 @@ public class Servidor extends Thread {
 	private static Thread server;
 
 	private static ServerSocket serverSocket;
-//	private static Conector conexionDB;
+	private static Conector conexionDB;
 	private final int puerto = 51000;
 
 	private static final int ANCHO = 700;
@@ -66,11 +66,6 @@ public class Servidor extends Thread {
 	public static AtencionConexion atencionConexiones;
 //	public static AtencionMovimientos atencionMovimientos;
 
-	/**
-	 * Programa de ejecución principal.
-	 * 
-	 * @param args
-	 */
 	public static void main(final String[] args) {
 		cargarInterfaz();
 	}
@@ -277,10 +272,7 @@ public class Servidor extends Thread {
 		return personajesConectados;
 	}
 
-//	/**
-//	 * @return devuelve el conector del servidor.
-//	 */
-//	public static Conector getConector() {
-//		return conexionDB;
-//	}
+	public static Conector getConector() {
+		return conexionDB;
+	}
 }

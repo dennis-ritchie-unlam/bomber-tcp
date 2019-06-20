@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import javax.swing.JOptionPane;
 
-import comando.Comando;
-import comando.Nada;
+import cliente.comando.Comando;
+import cliente.comando.Nada;
 
 public class Paquete implements Serializable, Cloneable {
 

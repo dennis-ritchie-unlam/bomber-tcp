@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import cliente.Cliente;
-import comando.Comando;
+import cliente.comando.Comando;
 
 import javax.swing.ImageIcon;
 

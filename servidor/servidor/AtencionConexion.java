@@ -2,7 +2,7 @@ package servidor;
 
 import com.google.gson.Gson;
 
-import comando.Comando;
+import cliente.comando.Comando;
 import mensaje.PaqueteDePersonaje;
 
 public class AtencionConexion extends Thread {

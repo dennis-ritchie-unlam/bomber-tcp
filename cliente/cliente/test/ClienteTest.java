@@ -1,4 +1,4 @@
-package test.clienteTest;
+package cliente.test;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import cliente.Cliente;
-import comando.Comando;
+import cliente.comando.Comando;
 import mensaje.Paquete;
 import mensaje.PaquetePersonaje;
 import mensaje.PaqueteUsuario;

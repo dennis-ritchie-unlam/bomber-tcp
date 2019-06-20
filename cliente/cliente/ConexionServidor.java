@@ -9,10 +9,10 @@ import javax.swing.JOptionPane;
 
 import com.google.gson.Gson;
 
-import comando.Comando;
-import comando.ComandoEscucha;
-import comando.ComandoServer;
+import cliente.comando.Comando;
+import cliente.comando.ComandoEscucha;
 import partida.Partida;
+import servidor.comando.ComandoServer;
 import mensaje.Paquete;
 import mensaje.PaqueteUsuario;
 

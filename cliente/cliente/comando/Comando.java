@@ -1,4 +1,4 @@
-package comando;
+package cliente.comando;
 
 import com.google.gson.Gson;
 

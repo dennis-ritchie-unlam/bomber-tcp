@@ -1,11 +1,5 @@
-package comando;
+package cliente.comando;
 
-
-/**
- * Clase que consiste en un comando que no hace nada. Es devuelto por algunos
- * métodos cuando se produce un error al intentar obtener el comando del
- * paquete.
- */
 public class Nada extends ComandoEscucha {
 
     /**

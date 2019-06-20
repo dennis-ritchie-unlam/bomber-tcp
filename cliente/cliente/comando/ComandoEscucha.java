@@ -1,7 +1,7 @@
-package comando;
+package cliente.comando;
 
+import cliente.comando.Comando;
 import partida.Partida;
-import comando.Comando;
 
 public abstract class ComandoEscucha extends Comando {
 	protected Partida partida;

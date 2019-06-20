@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 import cliente.Cliente;
-import comando.Comando;
+import cliente.comando.Comando;
 import recurso.Recurso;
 
 public class CargarRecursos extends Thread {

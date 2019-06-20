@@ -7,11 +7,11 @@ import java.net.Socket;
 
 import com.google.gson.Gson;
 
-import comando.Comando;
-import comando.ComandoServer;
+import cliente.comando.Comando;
 import mensaje.Paquete;
 import mensaje.PaquetePersonaje;
 import mensaje.PaqueteUsuario;
+import servidor.comando.ComandoServer;
 
 public class ConexionCliente extends Thread {
 
@@ -20,6 +20,7 @@ public class ConexionCliente extends Thread {
 	private ObjectOutputStream salida;
 
 	private PaquetePersonaje paquetePersonaje;
+	private PaqueteUsuario paqueteUsuario;
 	private final Gson gson = new Gson();
 
 	public ConexionCliente(String ip, Socket socket, final ObjectInputStream entrada, final ObjectOutputStream salida)
@@ -36,7 +37,7 @@ public class ConexionCliente extends Thread {
 			PaqueteUsuario paqueteUsuario = new PaqueteUsuario();
 
 			String cadenaLeida = (String) entrada.readObject();
-			
+
 			while (!((paquete = gson.fromJson(cadenaLeida, Paquete.class)).getComando() == Comando.DESCONECTAR)) {
 				comando = (ComandoServer) paquete.getObjeto(Comando.NOMBREPAQUETE);
 				comando.setCadena(cadenaLeida);
@@ -83,4 +84,15 @@ public class ConexionCliente extends Thread {
 		return paquetePersonaje;
 	}
 
+	public void setPaquetePersonaje(final PaquetePersonaje paquetePersonaje) {
+		this.paquetePersonaje = paquetePersonaje;
+	}
+
+	public PaqueteUsuario getPaqueteUsuario() {
+		return paqueteUsuario;
+	}
+
+	public void setPaqueteUsuario(final PaqueteUsuario paqueteUsuario) {
+		this.paqueteUsuario = paqueteUsuario;
+	}
 }
