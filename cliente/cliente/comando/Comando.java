@@ -3,7 +3,8 @@ package cliente.comando;
 import com.google.gson.Gson;
 
 public abstract class Comando {
-	public static final String NOMBREPAQUETE = "comandos";
+	public static final String NOMBREPAQUETE = "cliente.comando";
+	public static final String NOMBREPAQUETEBIS = "servidor.comando";
 	public static final String[] CLASSNAMES = { "Conexion", "CrearPersonaje", "Desconectar", "InicioSesion",
 			"Movimiento", "Registro", "Salir", "Nada" };
 	public static final String[] CLASSNAMESBIS = { "Conexion", "CrearPersonaje", "Desconectar", "InicioSesionSet",

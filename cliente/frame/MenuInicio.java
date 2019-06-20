@@ -67,7 +67,7 @@ public class MenuInicio extends JFrame {
 			}
 		});
 
-		setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/java/frames/IconoWome.png"));
+		// setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/java/frames/IconoWome.png"));
 //	setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
 //		new ImageIcon(MenuJugar.class.getResource("/cursor.png")).getImage(), new Point(0, 0),
 //		"custom cursor"));
@@ -75,7 +75,7 @@ public class MenuInicio extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		// Propiedades de la ventana
-		setTitle("WOME - World Of the Middle Earth");
+		setTitle("BMB - Bomberman");
 		setBounds(X_MENU, Y_MENU, ANCHO_MENU, ALTO_MENU);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -123,6 +123,7 @@ public class MenuInicio extends JFrame {
 
 				cliente.start();
 				dispose();
+				
 			}
 		});
 
@@ -144,7 +145,7 @@ public class MenuInicio extends JFrame {
 //		lblBackground.setIcon(new ImageIcon(MenuJugar.class.getResource("/frames/menuBackground.jpg")));
 		layeredPane.add(lblBackground, new Integer(0));
 	}
-	
+
 	public static void main(final String[] args) {
 		new MenuInicio().setVisible(true);
 	}

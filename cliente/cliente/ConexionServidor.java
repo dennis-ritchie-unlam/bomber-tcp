@@ -26,10 +26,6 @@ public class ConexionServidor extends Thread {
 //	private Map<Integer, PaqueteMovimiento> ubicacionPersonajes;
 //	private Map<Integer, PaquetePersonaje> personajesConectados;
 
-	/**
-	 * Constructor de EsuchaMensaje 
-	 * @param juego juego del que se escucha el mensaje
-	 */
 	public ConexionServidor(final Partida partida) {
 		this.partida = partida;
 		cliente = partida.getCliente();

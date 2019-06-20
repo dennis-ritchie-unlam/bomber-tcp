@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import javax.swing.JOptionPane;
+
 import com.google.gson.Gson;
 
 import cliente.comando.Comando;
@@ -23,6 +25,8 @@ public class ConexionCliente extends Thread {
 	private PaqueteUsuario paqueteUsuario;
 	private final Gson gson = new Gson();
 
+	private int idPersonaje;
+
 	public ConexionCliente(String ip, Socket socket, final ObjectInputStream entrada, final ObjectOutputStream salida)
 			throws IOException {
 		this.socket = socket;
@@ -31,21 +35,24 @@ public class ConexionCliente extends Thread {
 	}
 
 	public synchronized void run() {
+		Paquete paquete = null;
 		try {
 			ComandoServer comando;
-			Paquete paquete;
+			
 			PaqueteUsuario paqueteUsuario = new PaqueteUsuario();
 
 			String cadenaLeida = (String) entrada.readObject();
 
 			while (!((paquete = gson.fromJson(cadenaLeida, Paquete.class)).getComando() == Comando.DESCONECTAR)) {
-				comando = (ComandoServer) paquete.getObjeto(Comando.NOMBREPAQUETE);
+				JOptionPane.showMessageDialog(null, "nombrePaquete " + paquete + " comando " + paquete.getComando() + " mensaje " + paquete.getMensaje()) ;
+				comando = (ComandoServer) paquete.getObjeto(Comando.NOMBREPAQUETEBIS);
 				comando.setCadena(cadenaLeida);
 				comando.setEscuchaCliente(this);
 				comando.ejecutar();
 				cadenaLeida = (String) entrada.readObject();
 			}
-
+//			Exception in thread "Thread-5" java.lang.ClassCastException: cliente.comando.InicioSesion cannot be cast to servidor.comando.ComandoServer
+//			at servidor.ConexionCliente.run(ConexionCliente.java:44)
 			entrada.close();
 			salida.close();
 			socket.close();
@@ -60,7 +67,7 @@ public class ConexionCliente extends Thread {
 //				conectado.salida.writeObject(gson.toJson(paqueteDePersonajes, PaqueteDePersonajes.class));
 //		    }
 		} catch (IOException | ClassNotFoundException e) {
-
+			JOptionPane.showMessageDialog(null, "nombrePaquete " + paquete + " excepción " + e.getMessage());
 		}
 	}
 
@@ -82,6 +89,10 @@ public class ConexionCliente extends Thread {
 
 	public PaquetePersonaje getPaquetePersonaje() {
 		return paquetePersonaje;
+	}
+
+	public void setIdPersonaje(final int idPersonaje) {
+		this.idPersonaje = idPersonaje;
 	}
 
 	public void setPaquetePersonaje(final PaquetePersonaje paquetePersonaje) {

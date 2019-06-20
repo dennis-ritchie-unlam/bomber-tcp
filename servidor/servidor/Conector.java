@@ -28,7 +28,10 @@ public class Conector {
 
 	public PaqueteUsuario getUsuario(String usuario) {
 		PaqueteUsuario paquete = new PaqueteUsuario();
-
+		paquete.setUsername("ernesto1");
+		paquete.setIdPj(1);
+		paquete.setPassword("123");
+		
 		return paquete;
 	}
 }

@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -14,6 +15,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -40,7 +42,7 @@ public class Servidor extends Thread {
 
 	private static ServerSocket serverSocket;
 	private static Conector conexionDB;
-	private final int puerto = 51000;
+	private int puerto;
 
 	private static final int ANCHO = 700;
 	private static final int ALTO = 640;
@@ -176,10 +178,15 @@ public class Servidor extends Thread {
 	public void run() {
 		try {
 
-//			conexionDB = new Conector();
+			conexionDB = new Conector();
 //			conexionDB.connect();
 
 			log.append("Iniciando el servidor..." + System.lineSeparator());
+			
+			Properties propiedad = new Properties();
+			propiedad.load(new FileInputStream("config.properties"));
+			puerto = Integer.parseInt(propiedad.getProperty("PUERTO", "10000"));
+			
 			serverSocket = new ServerSocket(puerto);
 			log.append("Servidor esperando conexiones..." + System.lineSeparator());
 			String ipRemota;

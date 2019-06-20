@@ -6,12 +6,21 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
 import com.google.gson.Gson;
 
+import cliente.comando.Comando;
+import cliente.comando.ComandoCliente;
+import frame.MenuJugar;
+import mensaje.Paquete;
+import mensaje.PaquetePersonaje;
 import mensaje.PaqueteUsuario;
+import sala.Sala;
+import servidor.Usuario;
 
 public class Cliente extends Thread {
 	private Socket cliente;
@@ -20,11 +29,14 @@ public class Cliente extends Thread {
 	private int puerto;
 	private ObjectInputStream entrada;
 	private ObjectOutputStream salida;
-	
+
 	private final Gson gson = new Gson();
-	
+
 	private PaqueteUsuario paqueteUsuario;
-	
+	private PaquetePersonaje paquetePersonaje;
+
+	private int accion;
+
 	public Cliente() {
 		try {
 			Properties propiedad = new Properties();
@@ -35,22 +47,69 @@ public class Cliente extends Thread {
 			ip = cliente.getInetAddress().getHostAddress();
 			entrada = new ObjectInputStream(cliente.getInputStream());
 			salida = new ObjectOutputStream(cliente.getOutputStream());
-		} catch(IOException e) {
+		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "Fallo al iniciar la conexión con el servidor");
 			System.exit(1);
 		}
 	}
-	
+
 	public synchronized void run() {
-		paqueteUsuario = new PaqueteUsuario();
-		
-		while(!paqueteUsuario.isInicioSesion()) {
-			System.out.println("Estoy mostrando el menu");
+		try {
+			paqueteUsuario = new PaqueteUsuario();
+			ComandoCliente comand;
+
+			MenuJugar menuJugar = null;
+			while (!paqueteUsuario.isInicioSesion()) {
+				if (menuJugar == null) {
+					menuJugar = new MenuJugar(this);
+					menuJugar.setVisible(true);
+
+					// Creo los paquetes que le voy a enviar al servidor
+					paqueteUsuario = new PaqueteUsuario();
+					paquetePersonaje = new PaquetePersonaje();
+
+					// Espero a que el usuario seleccione alguna accion
+					wait();
+
+					comand = (ComandoCliente) Paquete.getObjetoSet(Comando.NOMBREPAQUETE, getAccion());
+					comand.setCadena(null);
+					comand.setCliente(this);
+					comand.ejecutar();
+
+					// Le envio el paquete al servidor
+					salida.writeObject(gson.toJson(paqueteUsuario));
+					// Recibo el paquete desde el servidor
+					String cadenaLeida = (String) entrada.readObject();
+					Paquete paquete = gson.fromJson(cadenaLeida, Paquete.class);
+
+					comand = (ComandoCliente) paquete.getObjeto(Comando.NOMBREPAQUETE);
+					comand.setCadena(cadenaLeida);
+					comand.setCliente(this);
+					comand.ejecutar();
+				}
+			}
+
+			
+			Sala sala = new Sala("Principal");
+//		while(!paqueteUsuario.isInicioSesion()) {
+//			System.out.println("Estoy mostrando el menu");
+//		}
+
+			System.out.println("Seleccione algo del menu");
+		} catch (IOException | InterruptedException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		System.out.println("Seleccione algo del menu");
 	}
-	
+
+	public int getAccion() {
+		return accion;
+	}
+
+	public void setAccion(final int accion) {
+		this.accion = accion;
+	}
+
 	public ObjectInputStream getEntrada() {
 		return this.entrada;
 	}
@@ -110,4 +169,30 @@ public class Cliente extends Thread {
 	public void setEntrada(ObjectInputStream entrada) {
 		this.entrada = entrada;
 	}
+	
+    public void enviar(String s) {
+        try {
+        	
+//		    juego.getCliente().getPaqueteMensaje().setUserEmisor(juego.getPersonaje().getNombre());
+//		    juego.getCliente().getPaqueteMensaje().setUserReceptor(getTitle());
+//		    juego.getCliente().getPaqueteMensaje().setMensaje(texto.getText());
+//
+//		    // MANDO EL COMANDO PARA QUE ENVIE EL MSJ
+//		    juego.getCliente().getPaqueteMensaje().setComando(Comando.TALK);
+//		    // El user receptor en espacio indica que es para todos
+//		    if (getTitle() == "Sala") {
+//			juego.getCliente().getPaqueteMensaje().setUserReceptor(null);
+//		    }
+//
+//		    juego.getCliente().getSalida().writeObject(gson.toJson(juego.getCliente().getPaqueteMensaje()));
+		    
+		    
+        	salida.writeObject(gson.toJson(s));
+//        	
+//            salida.write(s + "\n");
+//            salida.flush();
+        } catch (IOException ex) {
+//            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

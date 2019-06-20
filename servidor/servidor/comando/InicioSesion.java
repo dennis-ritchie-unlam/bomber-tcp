@@ -24,9 +24,12 @@ public class InicioSesion extends ComandoServer {
 				paquetePersonaje = Servidor.getConector().getPersonaje(conexionCliente.getPaqueteUsuario());
 				paquetePersonaje.setComando(Comando.INICIOSESION);
 				paquetePersonaje.setMensaje(Paquete.msjExito);
-				//conexionCliente.setIdPersonaje(paquetePersonaje.getId());
+				conexionCliente.setIdPersonaje(paquetePersonaje.getId());
 
 				conexionCliente.getSalida().writeObject(gson.toJson(paquetePersonaje));
+//				Exception in thread "Thread-7" java.lang.NullPointerException
+//				at servidor.comando.InicioSesion.ejecutar(InicioSesion.java:21)
+//				at servidor.ConexionCliente.run(ConexionCliente.java:51)
 			} else {
 				paqueteSv.setMensaje(Paquete.msjFracaso);
 				conexionCliente.getSalida().writeObject(gson.toJson(paqueteSv));
