@@ -26,20 +26,21 @@ public class ConexionCliente extends Thread implements Observer {
     private Mapa mapa;
     private Colisionador colisionador;
     private ArrayList<Bomba> bombas;
+    private Usuario user;
     final int BLOCK_SIZE = 32;
 
-    public ConexionCliente(Socket socket, Mensaje mensajes) {
+    public ConexionCliente(Socket socket, Mensaje mensajes, Mapa mapa, Sala sala) {
         try {
             this.mensaje = mensajes;
             this.socket = socket;
             this.entradaDatos = new DataInputStream(socket.getInputStream());
             this.salidaDatos = new DataOutputStream(socket.getOutputStream());
             gson = new Gson();
-            mapa = new Mapa();
+            this.mapa = mapa;
             bomber = new Bomber(32, 32);
-            colisionador = new Colisionador(mapa);
+            colisionador = new Colisionador(this.mapa);
             bombas = new ArrayList<Bomba>();
-            mapa.añadirBomber(bomber);
+            this.mapa.añadirBomber(bomber);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,18 +92,12 @@ public class ConexionCliente extends Thread implements Observer {
             }
 
             if (comando == 3) {
-                System.out.println("PosX: " + posX + "\n");
-
-                System.out.println("PosY: " + posY + "\n");
 
                 posY = (nuevoBomber.getPosicionY() + cantPosMover * 4) / BLOCK_SIZE;
-                System.out.println("NPos Y down: " + posY);
                 if (posX % BLOCK_SIZE == 0) {
                     posX /= BLOCK_SIZE;
-                    System.out.println("NPos X if down: " + posX + "\n");
                 } else {
                     posX = (nuevoBomber.getPosicionY() + cantPosMover * 4) / BLOCK_SIZE;
-                    System.out.println("NPos X else down: " + posX + "\n");
                 }
                 if (!colisionador.verificarColision(posX, posY))
                     nuevoBomber.moverse(0, cantPosMover);
@@ -112,13 +107,10 @@ public class ConexionCliente extends Thread implements Observer {
             } else if (comando == 1) {
 
                 posY = (nuevoBomber.getPosicionY() - cantPosMover) / BLOCK_SIZE;
-                System.out.println("NPos Y up: " + posY);
                 if (posX % BLOCK_SIZE == 0) {
                     posX /= BLOCK_SIZE;
-                    System.out.println("NPos X if up: " + posX + "\n");
                 } else {
                     posX = (nuevoBomber.getPosicionY() - cantPosMover) / BLOCK_SIZE;
-                    System.out.println("NPos X else up: " + posX + "\n");
                 }
                 if (!colisionador.verificarColision(posX, posY)) {
                     nuevoBomber.moverse(0, -cantPosMover);
@@ -127,13 +119,10 @@ public class ConexionCliente extends Thread implements Observer {
 //                contentPane.setBomber(nuevoBomber);
             } else if (comando == 2) {
                 posX = (nuevoBomber.getPosicionX() - cantPosMover) / BLOCK_SIZE;
-                System.out.println("NPos X left: " + posX);
                 if (posY % BLOCK_SIZE == 0) {
                     posY /= BLOCK_SIZE;
-                    System.out.println("NPos Y if left: " + posY + "\n");
                 } else {
                     posY = (nuevoBomber.getPosicionX() - cantPosMover) / BLOCK_SIZE;
-                    System.out.println("NPos Y else left: " + posY + "\n");
                 }
                 if (!colisionador.verificarColision(posX, posY))
                     nuevoBomber.moverse(-cantPosMover, 0);
@@ -141,13 +130,10 @@ public class ConexionCliente extends Thread implements Observer {
 //                contentPane.setBomber(nuevoBomber);
             } else if (comando == 4) {
                 posX = (nuevoBomber.getPosicionX() + cantPosMover * 4) / BLOCK_SIZE;
-                System.out.println("NPos X right: " + posX);
                 if (posY % BLOCK_SIZE == 0) {
                     posY /= BLOCK_SIZE;
-                    System.out.println("NPos Y if right: " + posY + "\n");
                 } else {
                     posY = (nuevoBomber.getPosicionX() + cantPosMover * 4) / BLOCK_SIZE;
-                    System.out.println("NPos Y else right: " + posY + "\n");
                 }
 
                 if (!colisionador.verificarColision(posX, posY))

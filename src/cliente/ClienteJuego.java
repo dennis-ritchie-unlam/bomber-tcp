@@ -66,7 +66,6 @@ public class ClienteJuego extends JFrame {
         while (conectado) {
             try {
                 mensaje = entradaDatos.readUTF();
-                System.out.println(mensaje);
                 contentPane.setMapa(gson.fromJson(mensaje, Mapa.class));
                 contentPane.repaint();
             } catch (IOException e) {
