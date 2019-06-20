@@ -20,7 +20,6 @@ import mensaje.Paquete;
 import mensaje.PaquetePersonaje;
 import mensaje.PaqueteUsuario;
 import sala.Sala;
-import servidor.Usuario;
 
 public class Cliente extends Thread {
 	private Socket cliente;
@@ -89,13 +88,13 @@ public class Cliente extends Thread {
 				}
 			}
 
-			
+			while(paqueteUsuario.isInicioSesion()) {
+				
+			}
 			Sala sala = new Sala("Principal");
-//		while(!paqueteUsuario.isInicioSesion()) {
-//			System.out.println("Estoy mostrando el menu");
-//		}
+			sala.entrar(this);
 
-			System.out.println("Seleccione algo del menu");
+			System.out.println("me conecte a la sala");
 		} catch (IOException | InterruptedException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

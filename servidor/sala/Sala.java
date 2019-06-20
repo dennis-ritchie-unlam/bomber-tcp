@@ -6,7 +6,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import cliente.Cliente;
-import servidor.Sala;
 import servidor.Servidor;
 
 public class Sala {
