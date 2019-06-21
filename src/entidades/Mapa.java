@@ -39,12 +39,8 @@ public class Mapa {
 		entidades[y][x] = null;
 	}
 	
-	public void añadirBomba(Bomba bombita) {
-		entidades[bombita.getPosicionY() / 32][bombita.getPosicionX() / 32] = bombita;
-	}
-
-	public void eliminarBomba(Bomba bombita) {
-		entidades[bombita.getPosicionY() / 32][bombita.getPosicionX() / 32] = null;
+	public void añadirBomba(Bomba bombita, int blockSize) {
+		entidades[bombita.getPosicionY() / blockSize][bombita.getPosicionX() / blockSize] = bombita;
 	}
 
 	public Entidad[][] getEntidades() {
@@ -76,7 +72,7 @@ public class Mapa {
 			if (bomb.getPosicionY() == bomber.getPosicionY() && bomb.getPosicionX() == bomber.getPosicionX())
 				bomber.explotar();
 		}
-		eliminarBomba(bomb);
+		setPosicionNull(bomb.getPosicionX() / blockSize, bomb.getPosicionY() / blockSize);
 		for (int i = 1; i <= bomb.getRango(); i++) {
 			x = (bomb.getPosicionX() - bomb.getRango() * blockSize) / blockSize;
 			y = bomb.getPosicionY() / blockSize;

@@ -1,10 +1,13 @@
 package entidades;
 
+import java.util.Arrays;
+
 public class Bomber implements Entidad {
 	private boolean estaVivo;
 	private int bombasDisponibles;
 	private int posicionX;
 	private int posicionY;
+	private boolean[] direccion;
 	private final String className;
 
 	public Bomber(int posX, int posY) {
@@ -12,6 +15,7 @@ public class Bomber implements Entidad {
 		this.posicionY = posY;
 		this.estaVivo = true;
 		this.bombasDisponibles = 4;
+		this.direccion = new boolean[4];
 		className = getClass().getName();
 	}
 
@@ -78,5 +82,19 @@ public class Bomber implements Entidad {
     @Override
     public String getClassName() {
         return className;
-    }
+    }	
+    
+    public int getDireccion() {
+		int dir = -1;
+    	for(int i = 0; i < direccion.length; i++) {
+    		if(direccion[i] == true)
+				dir = i;
+		}
+    	return dir;
+	}
+
+	public void setDireccion(int cod) {
+		Arrays.fill(direccion, false);
+		this.direccion[cod] = true;
+	}
 }

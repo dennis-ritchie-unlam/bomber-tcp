@@ -27,9 +27,10 @@ public class ConexionCliente extends Thread implements Observer {
     private Colisionador colisionador;
     private ArrayList<Bomba> bombas;
     private Usuario user;
+    private boolean[] direccion;
     final int BLOCK_SIZE = 32;
 
-    public ConexionCliente(Socket socket, Mensaje mensajes, Mapa mapa, Sala sala) {
+    public ConexionCliente(Socket socket, Mensaje mensajes, Mapa mapa/*, Sala sala*/) {
         try {
             this.mensaje = mensajes;
             this.socket = socket;
@@ -40,6 +41,7 @@ public class ConexionCliente extends Thread implements Observer {
             bomber = new Bomber(32, 32);
             colisionador = new Colisionador(this.mapa);
             bombas = new ArrayList<Bomba>();
+            direccion = new boolean[4];
             this.mapa.añadirBomber(bomber);
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,8 +57,8 @@ public class ConexionCliente extends Thread implements Observer {
         while (conectado) {
             try {
                 mensajeRecibido = entradaDatos.readUTF();
-                accion(Integer.parseInt(mensajeRecibido));
-                mensaje.setMensaje(gson.toJson(mapa));
+                accion(Integer.parseInt(mensajeRecibido), direccion);
+                mensaje.setMensaje(1, gson.toJson(mapa));
             } catch (IOException e) {
                 conectado = false;
                 e.printStackTrace();
@@ -70,7 +72,7 @@ public class ConexionCliente extends Thread implements Observer {
         }
     }
 
-    public void accion(int comando) {
+    public void accion(int comando, boolean[] direccion) {
 
         Bomber nuevoBomber = bomber;
         int posX = nuevoBomber.getPosicionX();
@@ -101,9 +103,7 @@ public class ConexionCliente extends Thread implements Observer {
                 }
                 if (!colisionador.verificarColision(posX, posY))
                     nuevoBomber.moverse(0, cantPosMover);
-
-//                contentPane.setBomberIcon(0, posY);
-//                contentPane.setBomber(nuevoBomber);
+                nuevoBomber.setDireccion(0);
             } else if (comando == 1) {
 
                 posY = (nuevoBomber.getPosicionY() - cantPosMover) / BLOCK_SIZE;
@@ -115,8 +115,7 @@ public class ConexionCliente extends Thread implements Observer {
                 if (!colisionador.verificarColision(posX, posY)) {
                     nuevoBomber.moverse(0, -cantPosMover);
                 }
-//                contentPane.setBomberIcon(1, posY);
-//                contentPane.setBomber(nuevoBomber);
+                nuevoBomber.setDireccion(1);
             } else if (comando == 2) {
                 posX = (nuevoBomber.getPosicionX() - cantPosMover) / BLOCK_SIZE;
                 if (posY % BLOCK_SIZE == 0) {
@@ -126,8 +125,7 @@ public class ConexionCliente extends Thread implements Observer {
                 }
                 if (!colisionador.verificarColision(posX, posY))
                     nuevoBomber.moverse(-cantPosMover, 0);
-//                contentPane.setBomberIcon(2, posX);
-//                contentPane.setBomber(nuevoBomber);
+                nuevoBomber.setDireccion(2);
             } else if (comando == 4) {
                 posX = (nuevoBomber.getPosicionX() + cantPosMover * 4) / BLOCK_SIZE;
                 if (posY % BLOCK_SIZE == 0) {
@@ -138,8 +136,7 @@ public class ConexionCliente extends Thread implements Observer {
 
                 if (!colisionador.verificarColision(posX, posY))
                     nuevoBomber.moverse(cantPosMover, 0);
-//                contentPane.setBomberIcon(3, posX);
-//                contentPane.setBomber(nuevoBomber);
+                nuevoBomber.setDireccion(3);
             }
 
         }
@@ -156,8 +153,8 @@ public class ConexionCliente extends Thread implements Observer {
                 bomba.setPosicionY(bomba.getPosicionY() - bomba.getPosicionY() % BLOCK_SIZE);
             else
                 bomba.setPosicionY(bomba.getPosicionY() + (bomba.getPosicionY() % BLOCK_SIZE) / 3);
-            if (this.mapa.getEntidades()[bomba.getPosicionY() / 32][bomba.getPosicionX() / 32] == null) {
-                this.mapa.añadirBomba(bomba);
+            if (this.mapa.getEntidades()[bomba.getPosicionY() / BLOCK_SIZE][bomba.getPosicionX() / BLOCK_SIZE] == null) {
+                this.mapa.añadirBomba(bomba, BLOCK_SIZE);
                 bombas.add(bomba);
             }
         }
@@ -170,7 +167,7 @@ public class ConexionCliente extends Thread implements Observer {
             public void actionPerformed(ActionEvent e) {
                 mapa.explotarBomba(bomba, BLOCK_SIZE);
                 bomber.setBombasDisponibles(bomber.getBombasDisponibles() + 1);
-                mensaje.setMensaje(gson.toJson(mapa));
+                mensaje.setMensaje(2, gson.toJson(mapa));
             }
         });
 

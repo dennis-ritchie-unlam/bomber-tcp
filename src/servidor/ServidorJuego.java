@@ -9,15 +9,14 @@ import entidades.Mapa;
 
 public class ServidorJuego {
 	public static ArrayList<Sala> listadoSalas;
+	private static Mapa mapa = new Mapa();
+	private static ServerSocket servidor = null;
 	
 	public static void main(String[] args) {
 		int maximoConexiones = 4;
-		ServerSocket servidor = null;
 		Socket socket = null;
 		Mensaje mensajes = new Mensaje();
-		Mapa mapa = new Mapa();
 		
-
 		try {
 			ArchivoDePropiedades archivo = new ArchivoDePropiedades("config.properties");
 			archivo.lectura();

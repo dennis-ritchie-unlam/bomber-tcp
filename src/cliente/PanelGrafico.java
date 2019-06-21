@@ -55,8 +55,8 @@ public class PanelGrafico extends JPanel{
                         posY = (obstaculito.getPosicionY() * BLOCK_SIZE);
                         if (!obstaculito.isDestructible()) {
                             g.drawImage(obstaculoIcon.getImage(), posX, posY, BLOCK_SIZE, BLOCK_SIZE, null);
-                        } else {
-                            g.drawImage(obstaculoDestructibleIcon.getImage(), posX, posY, BLOCK_SIZE, BLOCK_SIZE, null);
+                        } else {     
+                        	g.drawImage(obstaculoDestructibleIcon.getImage(), posX, posY, BLOCK_SIZE, BLOCK_SIZE, null);
                         }
                     }else {
                         Bomba bomba = (Bomba) mapa.getEntidades()[i][j];
@@ -70,12 +70,21 @@ public class PanelGrafico extends JPanel{
             }
         }
     }
+    
+    public void setBomberIcon(int i, double j) {
+		int m = (int) j;
+		this.bomberIcon = matrizBomberIcons[i][m % 5];
+	}
 
     private synchronized void dibujarBomber(Graphics g) {
         for (Bomber bomber : mapa.getBombers()) {
-            if (bomber.EstaVivo())
+            if (bomber.EstaVivo()) {
+            	int pos = bomber.getDireccion() > 1? bomber.getPosicionX(): bomber.getPosicionY();
+            	System.out.println(bomber.getDireccion());
+            	setBomberIcon(bomber.getDireccion(), pos / BLOCK_SIZE);
                 g.drawImage(bomberIcon.getImage(), bomber.getPosicionX(), bomber.getPosicionY(), BLOCK_SIZE, BLOCK_SIZE,
                         null); 
+            }
         }
         
     }

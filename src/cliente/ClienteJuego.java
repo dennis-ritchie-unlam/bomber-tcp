@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 
 import entidades.Entidad;
 import entidades.Mapa;
+import servidor.ArchivoDePropiedades;
 
 public class ClienteJuego extends JFrame {
 
@@ -35,8 +36,10 @@ public class ClienteJuego extends JFrame {
         setTitle("Bomberman TCP");
         setSize(676, 700);
         this.setVisible(true);
-        puerto = 15000;
-        host = "localHost";
+        ArchivoDePropiedades archivo = new ArchivoDePropiedades("config.properties");
+		archivo.lectura();
+        puerto = archivo.getPuerto();
+        host = archivo.getIp();
         contentPane = new PanelGrafico();
         setContentPane(contentPane);
         builder = new GsonBuilder();
