@@ -4,9 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -40,15 +42,21 @@ public class ConexionCliente extends Thread implements Observer {
             this.salidaDatos = new DataOutputStream(socket.getOutputStream());
             gson = new Gson();
             this.mapa = mapa;
-            bomber = new Bomber(32, 32);
+            //bomber = new Bomber(32, 32);
             colisionador = new Colisionador(this.mapa);
             bombas = new ArrayList<Bomba>();
             direccion = new boolean[4];
-            this.mapa.añadirBomber(bomber);
+            //this.mapa.añadirBomber(bomber);
             salidaDatos.writeUTF(gson.toJson(new PaqueteEnviado(mapa, bombas)));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public void validarSesion(String usuario, String contraseña) throws FileNotFoundException {
+    	LAT lector = new LAT();
+    	HashMap<String, String> mapaDeUsuarios = lector.leerArch("archivoSeguroYEncriptado.txt");
+    	    	
     }
 
     @Override
