@@ -23,6 +23,7 @@ public class ClienteJuego extends JFrame {
     private PanelGrafico contentPane;
     private Gson gson;
     private GsonBuilder builder;
+    private DataInputStream entradaDatos;
     static final int ALTO = 21;
     static final int ANCHO = 21;
     static final int BLOCK_SIZE = 32;
@@ -47,6 +48,10 @@ public class ClienteJuego extends JFrame {
         gson = builder.create();
         try {
             socket = new Socket(host, puerto);
+            entradaDatos = new DataInputStream(socket.getInputStream());
+            PaqueteRecibido paquete = gson.fromJson(entradaDatos.readUTF(), PaqueteRecibido.class);
+            contentPane.setMapa(paquete.getMapa());
+            contentPane.setBombas(paquete.getBombas());
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -54,22 +59,18 @@ public class ClienteJuego extends JFrame {
         }
 
         this.addKeyListener(new ConexionServidor(socket, host));
+        
     }
 
     public void recibirMensajeServidor() {
-        DataInputStream entradaDatos = null;
         String mensaje;
-        try {
-            entradaDatos = new DataInputStream(socket.getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         boolean conectado = true;
         while (conectado) {
             try {
                 mensaje = entradaDatos.readUTF();
-                contentPane.setMapa(gson.fromJson(mensaje, Mapa.class));
+                PaqueteRecibido paquete = gson.fromJson(mensaje, PaqueteRecibido.class);
+                contentPane.setMapa(paquete.getMapa());
+                contentPane.setBombas(paquete.getBombas());
                 contentPane.repaint();
             } catch (IOException e) {
                 conectado = false;

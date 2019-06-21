@@ -13,7 +13,6 @@ public class ServidorJuego {
 	private static ServerSocket servidor = null;
 	
 	public static void main(String[] args) {
-		int maximoConexiones = 4;
 		Socket socket = null;
 		Mensaje mensajes = new Mensaje();
 		
@@ -21,7 +20,7 @@ public class ServidorJuego {
 			ArchivoDePropiedades archivo = new ArchivoDePropiedades("config.properties");
 			archivo.lectura();
 			int puerto = archivo.getPuerto();
-			servidor = new ServerSocket(puerto, maximoConexiones);
+			servidor = new ServerSocket(puerto);
 			System.out.println("Servidor funcionando en el puerto: " + puerto);
 			listadoSalas = new ArrayList<>();
 	        Sala sala = new Sala("Principal");

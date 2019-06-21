@@ -9,6 +9,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import com.google.gson.Gson;
 import entidades.Bomba;
@@ -43,6 +45,7 @@ public class ConexionCliente extends Thread implements Observer {
             bombas = new ArrayList<Bomba>();
             direccion = new boolean[4];
             this.mapa.añadirBomber(bomber);
+            salidaDatos.writeUTF(gson.toJson(new PaqueteEnviado(mapa, bombas)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,19 +61,31 @@ public class ConexionCliente extends Thread implements Observer {
             try {
                 mensajeRecibido = entradaDatos.readUTF();
                 accion(Integer.parseInt(mensajeRecibido), direccion);
-                mensaje.setMensaje(1, gson.toJson(mapa));
+                mensaje.setMensaje(gson.toJson(new PaqueteEnviado(mapa, bombas)));
             } catch (IOException e) {
                 conectado = false;
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "El cliente ha salido del servidor");
                 try {
                     entradaDatos.close();
                     salidaDatos.close();
                 } catch (IOException e1) {
-                    e1.printStackTrace();
+                	e1.printStackTrace();
                 }
             }
         }
     }
+    
+    private void refrescar() {
+    	Timer timer = new Timer(1000, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	mensaje.setMensaje(gson.toJson(new PaqueteEnviado(mapa, bombas)));
+            }
+        });
+
+        timer.start();
+	}
 
     public void accion(int comando, boolean[] direccion) {
 
@@ -167,7 +182,8 @@ public class ConexionCliente extends Thread implements Observer {
             public void actionPerformed(ActionEvent e) {
                 mapa.explotarBomba(bomba, BLOCK_SIZE);
                 bomber.setBombasDisponibles(bomber.getBombasDisponibles() + 1);
-                mensaje.setMensaje(2, gson.toJson(mapa));
+                mensaje.setMensaje(gson.toJson(new PaqueteEnviado(mapa, bombas)));
+                bombas.remove(bomba);
             }
         });
 
