@@ -88,7 +88,7 @@ public class ClienteJuego extends JFrame {
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(45);
+                        Thread.sleep(30);
                         c.recibirMensajeServidor();
                     } catch (InterruptedException e) {
                         Logger.getLogger("Error");

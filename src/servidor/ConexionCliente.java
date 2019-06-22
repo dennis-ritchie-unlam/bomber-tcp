@@ -12,8 +12,10 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+
 import com.google.gson.Gson;
 import entidades.Bomba;
 import entidades.Bomber;
@@ -42,11 +44,29 @@ public class ConexionCliente extends Thread implements Observer {
             this.salidaDatos = new DataOutputStream(socket.getOutputStream());
             gson = new Gson();
             this.mapa = mapa;
-            //bomber = new Bomber(32, 32);
+            int cantBombers = this.mapa.getBombers().size();
+            switch(cantBombers) {
+    		case 0:
+    			bomber = new Bomber(32, 32);
+    			this.mapa.añadirBomber(bomber);
+    			break;
+    		case 1:
+    			bomber = new Bomber(32, 608);
+    			this.mapa.añadirBomber(bomber);
+    			break;
+    		case 2:
+    			bomber = new Bomber(608, 32);
+    			this.mapa.añadirBomber(bomber);
+    			break;
+    		case 3:
+    			bomber = new Bomber(608, 608);
+    			this.mapa.añadirBomber(bomber);
+    			break;
+    			
+    		}
             colisionador = new Colisionador(this.mapa);
             bombas = new ArrayList<Bomba>();
             direccion = new boolean[4];
-            //this.mapa.añadirBomber(bomber);
             salidaDatos.writeUTF(gson.toJson(new PaqueteEnviado(mapa, bombas)));
         } catch (IOException e) {
             e.printStackTrace();
@@ -64,7 +84,7 @@ public class ConexionCliente extends Thread implements Observer {
         String mensajeRecibido;
         boolean conectado = true;
         mensaje.addObserver(this);
-
+        
         while (conectado) {
             try {
                 mensajeRecibido = entradaDatos.readUTF();
@@ -84,7 +104,7 @@ public class ConexionCliente extends Thread implements Observer {
     }
     
     private void refrescar() {
-    	Timer timer = new Timer(1000, new ActionListener() {
+    	Timer timer = new Timer(500, new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -191,6 +211,7 @@ public class ConexionCliente extends Thread implements Observer {
                 mapa.explotarBomba(bomba, BLOCK_SIZE);
                 bomber.setBombasDisponibles(bomber.getBombasDisponibles() + 1);
                 mensaje.setMensaje(gson.toJson(new PaqueteEnviado(mapa, bombas)));
+                refrescar();
                 bombas.remove(bomba);
             }
         });
