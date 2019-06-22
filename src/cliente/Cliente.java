@@ -64,6 +64,8 @@ public class Cliente extends Thread {
 			socket = new Socket(host, puerto);
 			contentPaneJuego = new PanelJuego();
 			contentPaneSession = new PanelSession(this);
+			salidaDatos = new DataOutputStream(socket.getOutputStream());
+			salidaDatos.writeUTF(gson.toJson(new PaqueteSession("", ""), PaqueteSession.class));
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -80,45 +82,48 @@ public class Cliente extends Thread {
 		return this.accion;
 	}
 
-	public void recibirMensajeServidor() throws InterruptedException {
+	public void recibirMensajeServidor() throws InterruptedException, IOException {
 		synchronized (this) {
 //		JOptionPane.showMessageDialog(null,"recibirMensajeServidor");
 			try {
-				String mensaje = null;
 				entradaDatos = new DataInputStream(socket.getInputStream());
 				salidaDatos = new DataOutputStream(socket.getOutputStream());
 				Paquete paquete = new Paquete();
-				salidaDatos.writeUTF(gson.toJson(paquete, Paquete.class));
 				String datos = entradaDatos.readUTF();
 				String comando = paquete.getComando();
+				comando = (comando == null || comando.isEmpty()) ? "" : comando;
 				if (!conectado) {
-					try {
-						mensaje = datos;
-						PaqueteSession paqueteSession = gson.fromJson(mensaje, PaqueteSession.class);
-						MenuInicio menu = new MenuInicio(this, paqueteSession);
-						menu.setVisible(true);
-						wait();
-						
-						/** 
-						 * Enviar al servidor los paquetes
-						 */
-				    	salidaDatos.writeUTF(gson.toJson(paqueteSession, PaqueteSession.class));
-				    	entradaDatos = new DataInputStream(socket.getInputStream());
-
-				    	entradaDatos.readUTF();
-				    	datos = entradaDatos.readUTF();
-				    	paqueteSession = gson.fromJson(datos, PaqueteSession.class);
-				    	
-						conectado = paqueteSession.esValido();
-					} catch (IOException e) {
-						conectado = false;
-						e.printStackTrace();
-					}
-				} else {
-//				JOptionPane.showMessageDialog(null,"USUARIO LOGEADO");
-					comando = (comando == null || comando.isEmpty()) ? "" : comando;
 					switch (comando) {
 					case Comando.INICIAR_SESION:
+						JOptionPane.showMessageDialog(null,"INICIAR_SESION");
+						try {
+							iniciarSesion(datos);
+						} catch (IOException e) {
+							conectado = false;
+							e.printStackTrace();
+						}
+						break;
+					case Comando.VALIDAR_SESION:
+						JOptionPane.showMessageDialog(null,"VALIDAR_SESION");
+						validarSesion(datos);
+						break;
+					default:
+						JOptionPane.showMessageDialog(null,"INICIAR_SESION DEFAULT");
+						try {
+							iniciarSesion(datos);
+						} catch (IOException e) {
+							conectado = false;
+							e.printStackTrace();
+						}
+					}		
+				} else {
+					
+				JOptionPane.showMessageDialog(null,"USUARIO LOGEADO");
+					
+					switch (comando) {
+					case Comando.INICIAR_SESION:
+						break;
+					case Comando.VALIDAR_SESION:
 						break;
 					case Comando.CERRAR_SESION:
 						break;
@@ -144,10 +149,32 @@ public class Cliente extends Thread {
 				JOptionPane.showMessageDialog(null, "UnknownHostException");
 				e.printStackTrace();
 			} catch (IOException e) {
+				socket.close();
 				JOptionPane.showMessageDialog(null, "IOException");
 				e.printStackTrace();
 			}
+			
+			//salidaDatos.writeUTF(gson.toJson(new Paquete(), Paquete.class));
 		}
+	}
+	
+	public void iniciarSesion(String datos) throws InterruptedException, IOException {
+		PaqueteSession paqueteSession = gson.fromJson(datos, PaqueteSession.class);
+		MenuInicio menu = new MenuInicio(this, paqueteSession);
+		menu.setVisible(true);
+		wait();
+		
+		paqueteSession.setComando(Comando.VALIDAR_SESION);
+    	salidaDatos.writeUTF(gson.toJson(paqueteSession, PaqueteSession.class));
+	}
+	
+	public void validarSesion(String datos) throws IOException {
+		PaqueteSession paqueteSession = gson.fromJson(datos, PaqueteSession.class);
+		entradaDatos = new DataInputStream(socket.getInputStream());
+    	datos = entradaDatos.readUTF();
+    	paqueteSession = gson.fromJson(datos, PaqueteSession.class);
+		conectado = paqueteSession.esValido();
+		salidaDatos.writeUTF(gson.toJson(new Paquete(), Paquete.class));
 	}
 
 	public static void main(String[] args) {
@@ -162,6 +189,9 @@ public class Cliente extends Thread {
 						c.recibirMensajeServidor();
 					} catch (InterruptedException e) {
 						Logger.getLogger("Error");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 

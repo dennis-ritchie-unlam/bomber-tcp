@@ -57,40 +57,73 @@ public class ConexionCliente extends Thread implements Observer {
 
 	@Override
 	public void run() {
-		try {
-			// boolean conectado = true;
-			// mensaje.addObserver(this);
+		boolean conectado = true;
+		// mensaje.addObserver(this);
 
-			JOptionPane.showMessageDialog(null, "ANTES DE LEER");
-			String cadenaLeida = null;
+		JOptionPane.showMessageDialog(null, "ANTES DE LEER");
 
-			Paquete paquete;
-//			cadenaLeida = (String) entradaDatos.readUTF();
+		while (conectado) {
+			try {
+				String datos = entradaDatos.readUTF();
+				Paquete paquete = gson.fromJson(datos, Paquete.class);
+				String comando = paquete.getComando();
+				comando = (comando == null || comando.isEmpty()) ? "" : comando;
+				switch (comando) {
+				case Comando.INICIAR_SESION:
+					PaqueteSession paqueteSession = gson.fromJson(datos, PaqueteSession.class);
+					iniciarSesion(paqueteSession);
+					break;
+				case Comando.VALIDAR_SESION:
 
-			// while (!((paquete = gson.fromJson(cadenaLeida, Paquete.class)).getComando()
-			// == Comando.CERRAR_SESION)) {
-			while ((paquete = gson.fromJson(cadenaLeida, Paquete.class)) == null) {
-
-				paquete = gson.fromJson(cadenaLeida, Paquete.class);
-				PaqueteSession paq = new PaqueteSession("", "");
-
-				salidaDatos.writeUTF(gson.toJson(paq, PaqueteSession.class));
-				cadenaLeida = (String) entradaDatos.readUTF();
-
+					JOptionPane.showMessageDialog(null, "VALIDAR_SESION CONEXION CLIENTE");
+					PaqueteSession paqueteSessionValidar = gson.fromJson(datos, PaqueteSession.class);
+					boolean sesionValida =validarSesion(paqueteSessionValidar.getUsuario(), paqueteSessionValidar.getContraseña());
+					paqueteSessionValidar.setEsValido(sesionValida);
+					mensaje.setMensaje(gson.toJson(paqueteSessionValidar));
+					salidaDatos.writeUTF(gson.toJson(paqueteSessionValidar));
+				break;
+				case Comando.CERRAR_SESION:
+					conectado = false;
+					break;
+				default:
+//					resolverJuego(datos);
+					PaqueteSession paqueteSession2 = gson.fromJson(datos, PaqueteSession.class);
+					iniciarSesion(paqueteSession2);
+				}
+			} catch (IOException e) {
+				conectado = false;
+				JOptionPane.showMessageDialog(null, "El cliente ha salido del servidor");
+				try {
+					entradaDatos.close();
+					salidaDatos.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
-			PaqueteSession paqueteS = new PaqueteSession("", "");
-			paqueteS.setEsValido(true);
-			paqueteS.setComando(Comando.CERRAR_SESION);
-			getSalidaDatos().writeUTF(gson.toJson(paqueteS, PaqueteSession.class));
-
-			getEntradaDatos().close();
-			getSalidaDatos().close();
-			getSocket().close();
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+
+//		String cadenaLeida = null;
+//
+//		Paquete paquete;
+//		cadenaLeida = (String) entradaDatos.readUTF();
+//
+//		// while (!((paquete = gson.fromJson(cadenaLeida, Paquete.class)).getComando()
+//		// == Comando.CERRAR_SESION)) {
+//		while ((paquete = gson.fromJson(cadenaLeida, Paquete.class)) == null) {
+//			PaqueteSession paq = new PaqueteSession("", "");
+//
+//			salidaDatos.writeUTF(gson.toJson(paq, PaqueteSession.class));
+//			cadenaLeida = (String) entradaDatos.readUTF();
+//
+//		}
+//		PaqueteSession paqueteS = new PaqueteSession("", "");
+//		paqueteS.setEsValido(true);
+//		paqueteS.setComando(Comando.CERRAR_SESION);
+//		getSalidaDatos().writeUTF(gson.toJson(paqueteS, PaqueteSession.class));
+//
+//		getEntradaDatos().close();
+//		getSalidaDatos().close();
+//		getSocket().close();
 
 //		while (conectado) {
 //			
@@ -113,55 +146,28 @@ public class ConexionCliente extends Thread implements Observer {
 //			}
 //		}
 
-//		while (conectado) {
-//			try {
-//				Paquete paquete = gson.fromJson(entradaDatos.readUTF(), Paquete.class);
-//				String comando = paquete.getComando();
-//				switch (comando) {
-//				case Comando.INICIAR_SESION:
-//					PaqueteSession paqueteSession = (PaqueteSession) paquete;
-//					String usuario = paqueteSession.getUsuario();
-//					String contraseña = paqueteSession.getContraseña();
-//					new PaqueteSession(usuario, contraseña);
-//					boolean esValido = validarSesion(usuario, contraseña);
-//					paqueteSession.setEsValido(esValido);
-//					mensaje.setMensaje(gson.toJson(paqueteSession));
-//					salidaDatos.writeUTF(gson.toJson(paqueteSession));
-//					break;
-//				case Comando.CERRAR_SESION:
-//					conectado = false;
-//					break;
-//				default:
-//					PaqueteJuego paqueteJuego = (PaqueteJuego) paquete;
-//					accionJuego(comando, direccion);
-//					paqueteJuego.setMapa(mapa);
-//					paqueteJuego.setBombas(bombas);
-//					mensaje.setMensaje(gson.toJson(paqueteJuego));
-//					salidaDatos.writeUTF(gson.toJson(paqueteJuego));
-//				}
-//			} catch (IOException e) {
-//				conectado = false;
-//				JOptionPane.showMessageDialog(null, "El cliente ha salido del servidor");
-//				try {
-//					entradaDatos.close();
-//					salidaDatos.close();
-//				} catch (IOException e1) {
-//					e1.printStackTrace();
-//				}
-//			}
-//		}
+		
 	}
-
-	public DataOutputStream getSalidaDatos() {
-		return this.salidaDatos;
+	
+	public void resolverJuego(String datos) throws IOException {
+		PaqueteJuego paqueteJuego = gson.fromJson(datos, PaqueteJuego.class);
+		String comando = paqueteJuego.getComando();
+		accionJuego(comando, direccion);
+		paqueteJuego.setMapa(mapa);
+		paqueteJuego.setBombas(bombas);
+		mensaje.setMensaje(gson.toJson(paqueteJuego));
+		salidaDatos.writeUTF(gson.toJson(paqueteJuego));
 	}
-
-	public DataInputStream getEntradaDatos() {
-		return this.entradaDatos;
-	}
-
-	public Socket getSocket() {
-		return this.socket;
+	
+	public void iniciarSesion(Paquete paquete) throws IOException {
+		PaqueteSession paqueteSession = (PaqueteSession) paquete;
+		String usuario = paqueteSession.getUsuario();
+		String contraseña = paqueteSession.getContraseña();
+		new PaqueteSession(usuario, contraseña);
+		boolean esValido = validarSesion(usuario, contraseña);
+		paqueteSession.setEsValido(esValido);
+		mensaje.setMensaje(gson.toJson(paqueteSession));
+		salidaDatos.writeUTF(gson.toJson(paqueteSession));
 	}
 
 	public void ingresoValido() {
@@ -306,5 +312,17 @@ public class ConexionCliente extends Thread implements Observer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public DataOutputStream getSalidaDatos() {
+		return this.salidaDatos;
+	}
+
+	public DataInputStream getEntradaDatos() {
+		return this.entradaDatos;
+	}
+
+	public Socket getSocket() {
+		return this.socket;
 	}
 }

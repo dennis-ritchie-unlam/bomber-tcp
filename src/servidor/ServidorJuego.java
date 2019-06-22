@@ -108,11 +108,11 @@ public class ServidorJuego extends Thread {
 					server.stop();
 					atencionConexiones.stop();
 //					atencionMovimientos.stop();
-//					for (EscuchaCliente cliente : clientesConectados) {
-//						cliente.getSalida().close();
-//						cliente.getEntrada().close();
-//						cliente.getSocket().close();
-//					}
+					for (ConexionCliente cliente : clientesConectados) {
+						cliente.getSalidaDatos().close();
+						cliente.getEntradaDatos().close();
+						cliente.getSocket().close();
+					}
 					servidor.close();
 					log.append("El servidor se ha detenido." + System.lineSeparator());
 				} catch (IOException e1) {
@@ -170,7 +170,7 @@ public class ServidorJuego extends Thread {
 			archivo.lectura();
 			int puerto = archivo.getPuerto();
 			servidor = new ServerSocket(puerto);
-			System.out.println("Servidor funcionando en el puerto: " + puerto);
+			agregarLog("Servidor funcionando en el puerto: " + puerto);
 			listadoSalas = new ArrayList<>();
 	        Sala sala = new Sala("Principal");
 	        agregarSala(sala);
@@ -182,7 +182,7 @@ public class ServidorJuego extends Thread {
 				socket = servidor.accept();
 				ipRemota =  socket.getInetAddress().getHostAddress();
 				
-				System.out.println("Nuevo usuario se ha conectado " + ipRemota);
+				agregarLog("Nuevo usuario se ha conectado " + ipRemota);
 				
 				DataOutputStream salida = new DataOutputStream(socket.getOutputStream());
 				DataInputStream entrada = new DataInputStream(socket.getInputStream());
@@ -192,7 +192,7 @@ public class ServidorJuego extends Thread {
 				clientesConectados.add(cc);
 			}
 		} catch (IOException e) {
-			System.err.println("Error en el servidor");
+			agregarLog("Error en el servidor");
 			e.printStackTrace();
 		} finally {
 			try {
@@ -205,6 +205,11 @@ public class ServidorJuego extends Thread {
 		}
 	}
 	
+	public static void agregarLog(String texto) {
+		log.append(texto + System.lineSeparator());
+		System.out.println(texto);
+	}
+	
 	public static ArrayList<ConexionCliente> getClientesConectados() {
 		return clientesConectados;
 	}
@@ -212,7 +217,7 @@ public class ServidorJuego extends Thread {
 	public static void agregarSala(Sala s) {
         //if (obtenerSala(s.getNombre()) == null) {
             listadoSalas.add(s);
-            System.out.println(("Se ha creado la sala con nombre " + s.getNombre()));
+            agregarLog(("Se ha creado la sala con nombre " + s.getNombre()));
 //            for(Sala sa: listadoSalas) {
 //            	sa.difundirSalas();
 //            }

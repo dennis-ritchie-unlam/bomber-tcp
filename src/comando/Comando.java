@@ -8,4 +8,5 @@ public class Comando {
 	public static final String VK_SPACE = "5";
 	public static final String INICIAR_SESION = "12";
 	public static final String CERRAR_SESION = "13";
+	public static final String VALIDAR_SESION = "14";
 }

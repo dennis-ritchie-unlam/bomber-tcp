@@ -20,10 +20,10 @@ public class ConexionServidor implements KeyListener{
     private Gson gson;
     private PaqueteMovimiento paqueteMovimiento;
     
-    public ConexionServidor(Socket socket, String usuario, Gson gson) {
+    public ConexionServidor(Socket socket, String usuario) {
         this.socket = socket;
         this.usuario = usuario;
-        this.gson = gson;
+//        this.gson = gson;
         this.paqueteMovimiento = new PaqueteMovimiento();
         try {
             this.salidaDatos = new DataOutputStream(socket.getOutputStream());

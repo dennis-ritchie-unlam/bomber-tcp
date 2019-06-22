@@ -2,11 +2,7 @@ package servidor;
 
 import com.google.gson.Gson;
 
-import estados.Estado;
-import mensajeria.Comando;
-import mensajeria.PaqueteDePersonajes;
 import paquete.Paquete;
-import paquete.PaqueteSession;
 
 /**
  * Clase AtencionConexion
