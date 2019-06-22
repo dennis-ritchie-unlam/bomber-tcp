@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Scanner;
-
+// Lector de Archivo de texto (Usuario y contraseña)
 public class LAT {
 	
 	public HashMap<String, String> leerArch(String path) throws FileNotFoundException {

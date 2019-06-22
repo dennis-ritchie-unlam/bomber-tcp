@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -41,21 +42,30 @@ public class ConexionCliente extends Thread implements Observer {
             this.entradaDatos = new DataInputStream(socket.getInputStream());
             this.salidaDatos = new DataOutputStream(socket.getOutputStream());
             gson = new Gson();
-            this.mapa = mapa;
-            //bomber = new Bomber(32, 32);
-            colisionador = new Colisionador(this.mapa);
-            bombas = new ArrayList<Bomba>();
-            direccion = new boolean[4];
-            //this.mapa.añadirBomber(bomber);
             salidaDatos.writeUTF(gson.toJson(new PaqueteEnviado(mapa, bombas)));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     
-    public void validarSesion(String usuario, String contraseña) throws FileNotFoundException {
+    public void ingresoValido() {
+        this.mapa = mapa;
+        bomber = new Bomber(32, 32);
+        colisionador = new Colisionador(this.mapa);
+        bombas = new ArrayList<Bomba>();
+        direccion = new boolean[4];
+        this.mapa.añadirBomber(bomber);
+    }
+    
+    public boolean validarSesion(String usuario, String contraseña) throws FileNotFoundException {
     	LAT lector = new LAT();
     	HashMap<String, String> mapaDeUsuarios = lector.leerArch("archivoSeguroYEncriptado.txt");
+    	
+        for (String key : mapaDeUsuarios.keySet()) {
+        	if(usuario.equals(key) && contraseña.equals(mapaDeUsuarios.get(key)))
+        		return true;
+        }
+        return false;
     	    	
     }
 
