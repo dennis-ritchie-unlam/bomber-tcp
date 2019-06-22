@@ -80,8 +80,7 @@ public class ClienteJuego extends JFrame {
     }
 
     public static void main(String[] args) {
-        ClienteJuego c = new ClienteJuego();
-        c.setVisible(true);
+        Cliente c = new Cliente();
         Thread hilo = new Thread(new Runnable() {
 
             @Override
@@ -93,7 +92,6 @@ public class ClienteJuego extends JFrame {
                     } catch (InterruptedException e) {
                         Logger.getLogger("Error");
                     }
-                    c.contentPane.repaint();
                 }
 
             }
