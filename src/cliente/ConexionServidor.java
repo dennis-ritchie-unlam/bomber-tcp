@@ -6,15 +6,25 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import com.google.gson.Gson;
+
+import comando.*;
+import paquete.Paquete;
+import paquete.PaqueteMovimiento;
+
 public class ConexionServidor implements KeyListener{
     
     private Socket socket;
     private String usuario;
     private DataOutputStream salidaDatos;
+    private Gson gson;
+    private PaqueteMovimiento paqueteMovimiento;
     
-    public ConexionServidor(Socket socket, String usuario) {
+    public ConexionServidor(Socket socket, String usuario, Gson gson) {
         this.socket = socket;
         this.usuario = usuario;
+        this.gson = gson;
+        this.paqueteMovimiento = new PaqueteMovimiento();
         try {
             this.salidaDatos = new DataOutputStream(socket.getOutputStream());
         } catch (IOException ex) {
@@ -28,19 +38,19 @@ public class ConexionServidor implements KeyListener{
         try {
             switch (arg0.getKeyCode()) {
             case KeyEvent.VK_UP:
-                salidaDatos.writeUTF("1");
+            	escribirToJson(Comando.VK_UP);
                 break;
             case KeyEvent.VK_LEFT:
-                salidaDatos.writeUTF("2");
+            	escribirToJson(Comando.VK_LEFT);
                 break;
             case KeyEvent.VK_DOWN:
-                salidaDatos.writeUTF("3");
+            	escribirToJson(Comando.VK_DOWN);
                 break;
             case KeyEvent.VK_RIGHT:
-                salidaDatos.writeUTF("4");
+            	escribirToJson(Comando.VK_RIGHT);
                 break;
             case KeyEvent.VK_SPACE:
-                salidaDatos.writeUTF("5");
+            	escribirToJson(Comando.VK_SPACE);
 
             }
         } catch (IOException e) {
@@ -53,19 +63,19 @@ public class ConexionServidor implements KeyListener{
         try {
             switch (arg0.getKeyCode()) {
             case KeyEvent.VK_UP:
-                salidaDatos.writeUTF("7");
+            	escribirToJson("7");
                 break;
             case KeyEvent.VK_LEFT:
-                salidaDatos.writeUTF("8");
+            	escribirToJson("8");
                 break;
             case KeyEvent.VK_DOWN:
-                salidaDatos.writeUTF("9");
+            	escribirToJson("9");
                 break;
             case KeyEvent.VK_RIGHT:
-                salidaDatos.writeUTF("10");
+            	escribirToJson("10");
                 break;
             case KeyEvent.VK_SPACE:
-                salidaDatos.writeUTF("11");
+            	escribirToJson("11");
 
             }
         } catch (IOException e) {
@@ -75,6 +85,11 @@ public class ConexionServidor implements KeyListener{
 
     @Override
     public void keyTyped(KeyEvent arg0) {
+    }
+    
+    public void escribirToJson(String cadena) throws IOException {
+    	paqueteMovimiento.setComando(cadena);
+    	salidaDatos.writeUTF(gson.toJson(paqueteMovimiento, PaqueteMovimiento.class));
     }
     
 }

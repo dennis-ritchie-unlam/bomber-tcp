@@ -34,7 +34,6 @@ public class Usuario {
         this.heartBeatOn = true;
     }
 
-    @Override
     public void run() {
         //Espera a recibir el mensaje de login del cliente
         String login = recibir();
