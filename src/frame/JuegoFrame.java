@@ -87,19 +87,18 @@ public class JuegoFrame extends JFrame {
 
     public static void main(String[] args) {
         Cliente c = new Cliente();
-        //c.setVisible(true);
+
         Thread hilo = new Thread(new Runnable() {
 
             @Override
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(45);
+                        Thread.sleep(30);
                         c.recibirMensajeServidor();
                     } catch (InterruptedException e) {
                         Logger.getLogger("Error");
                     }
-                    //c.contentPane.repaint();
                 }
 
             }

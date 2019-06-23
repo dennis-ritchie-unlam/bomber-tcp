@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
@@ -37,7 +38,6 @@ public class ConexionCliente extends Thread implements Observer {
 	private Mapa mapa;
 	private Colisionador colisionador;
 	private ArrayList<Bomba> bombas;
-	private Usuario user;
 	private boolean[] direccion;
 	final int BLOCK_SIZE = 32;
 
@@ -47,14 +47,37 @@ public class ConexionCliente extends Thread implements Observer {
 		this.socket = socket;
 		this.entradaDatos = entrada;
 		this.salidaDatos = salida;
-		/*
-		 * this.entradaDatos = new DataInputStream(socket.getInputStream());
-		 * this.salidaDatos = new DataOutputStream(socket.getOutputStream());
-		 */
-
+		this.mapa = mapa;
 		gson = new Gson();
+        colisionador = new Colisionador(this.mapa);
+        bombas = new ArrayList<Bomba>();
+        direccion = new boolean[4];
 	}
 
+//	 @Override
+//	    public void run() {
+//	        String mensajeRecibido;
+//	        boolean conectado = true;
+//	        mensaje.addObserver(this);
+//	        
+//	        while (conectado) {
+//	            try {
+//	                mensajeRecibido = entradaDatos.readUTF();
+//	                accion(Integer.parseInt(mensajeRecibido), direccion);
+//	                mensaje.setMensaje(gson.toJson(new PaqueteEnviado(mapa, bombas)));
+//	            } catch (IOException e) {
+//	                conectado = false;
+//	                JOptionPane.showMessageDialog(null, "El cliente ha salido del servidor");
+//	                try {
+//	                    entradaDatos.close();
+//	                    salidaDatos.close();
+//	                } catch (IOException e1) {
+//	                	e1.printStackTrace();
+//	                }
+//	            }
+//	        }
+//	    }
+	 
 	@Override
 	public void run() {
 		boolean conectado = true;
@@ -147,6 +170,29 @@ public class ConexionCliente extends Thread implements Observer {
 //		}
 
 		
+	}
+	
+	public void crearBomber( ) {
+        int cantBombers = this.mapa.getBombers().size();
+        switch(cantBombers) {
+		case 0:
+			bomber = new Bomber(32, 32);
+			this.mapa.añadirBomber(bomber);
+			break;
+		case 1:
+			bomber = new Bomber(32, 608);
+			this.mapa.añadirBomber(bomber);
+			break;
+		case 2:
+			bomber = new Bomber(608, 32);
+			this.mapa.añadirBomber(bomber);
+			break;
+		case 3:
+			bomber = new Bomber(608, 608);
+			this.mapa.añadirBomber(bomber);
+			break;
+		}
+        //salidaDatos.writeUTF(gson.toJson(new PaqueteEnviado(mapa, bombas)));
 	}
 	
 	public void resolverJuego(String datos) throws IOException {

@@ -180,6 +180,7 @@ public class ServidorJuego extends Thread {
 	        
 			while (true) {
 				socket = servidor.accept();
+
 				ipRemota =  socket.getInetAddress().getHostAddress();
 				
 				agregarLog("Nuevo usuario se ha conectado " + ipRemota);
