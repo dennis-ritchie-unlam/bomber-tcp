@@ -96,7 +96,7 @@ public class Sala {
 
     public void actualizarListadoUsuarios() {
         for (Usuario usr : usuarios) {
-            //usr.enviarListaUsuarios();
+            usr.enviarListaUsuarios();
         }
     }
     

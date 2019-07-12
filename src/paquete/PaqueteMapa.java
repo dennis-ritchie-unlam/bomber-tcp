@@ -1,16 +1,17 @@
-package cliente;
+package paquete;
 
 import java.util.ArrayList;
 
 import entidades.Bomba;
 import entidades.Mapa;
 
-public class PaqueteRecibido {
+public class PaqueteMapa extends Paquete {
 	
 	private Mapa mapa;
 	private ArrayList<Bomba> bombas;
 	
-	public PaqueteRecibido(Mapa mapa, ArrayList<Bomba> bombas) {
+	public PaqueteMapa(String comando, Mapa mapa, ArrayList<Bomba> bombas) {
+		super(comando);
 		this.mapa = mapa;
 		this.bombas = bombas;
 	}

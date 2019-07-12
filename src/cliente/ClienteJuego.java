@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 
 import entidades.Entidad;
 import entidades.Mapa;
+import paquete.PaqueteMapa;
 import servidor.ArchivoDePropiedades;
 
 public class ClienteJuego extends JFrame {
@@ -49,7 +50,7 @@ public class ClienteJuego extends JFrame {
         try {
             socket = new Socket(host, puerto);
             entradaDatos = new DataInputStream(socket.getInputStream());
-            PaqueteRecibido paquete = gson.fromJson(entradaDatos.readUTF(), PaqueteRecibido.class);
+            PaqueteMapa paquete = gson.fromJson(entradaDatos.readUTF(), PaqueteMapa.class);
             contentPane.setMapa(paquete.getMapa());
             contentPane.setBombas(paquete.getBombas());
         } catch (UnknownHostException e) {
@@ -62,13 +63,13 @@ public class ClienteJuego extends JFrame {
         
     }
 
-    public void recibirMensajeServidor() {
+    public synchronized void recibirMensajeServidor() {
         String mensaje;
         boolean conectado = true;
         while (conectado) {
             try {
                 mensaje = entradaDatos.readUTF();
-                PaqueteRecibido paquete = gson.fromJson(mensaje, PaqueteRecibido.class);
+                PaqueteMapa paquete = gson.fromJson(mensaje, PaqueteMapa.class);
                 contentPane.setMapa(paquete.getMapa());
                 contentPane.setBombas(paquete.getBombas());
                 contentPane.repaint();

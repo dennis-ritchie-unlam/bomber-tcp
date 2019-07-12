@@ -23,12 +23,12 @@ public class ServidorJuego {
 			servidor = new ServerSocket(puerto);
 			System.out.println("Servidor funcionando en el puerto: " + puerto);
 			listadoSalas = new ArrayList<>();
-	        Sala sala = new Sala("Principal");
-	        agregarSala(sala);
+	        //Sala sala = new Sala("Principal");
+	        //agregarSala(sala);
 			while (true) {
 				socket = servidor.accept();
 				System.out.println("Nuevo usuario se ha conectado");
-				ConexionCliente cc = new ConexionCliente(socket, mensajes, mapa);
+				ConexionCliente cc = new ConexionCliente(socket, mensajes, mapa/*, sala*/);
 				cc.start();
 			}
 		} catch (IOException e) {
